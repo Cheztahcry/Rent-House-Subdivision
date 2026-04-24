@@ -32,7 +32,7 @@
                   ];
     $errors = [];
     
-    // Check for empty fields; If their is empty field add it to the error list
+    // Check for empty fields; if there is an empty field, add it to the error list
     foreach ($owner_info as $info => $errorMessage) {
     if (empty(trim($_POST[$info] ?? ''))) {
         $errors[$info] = $errorMessage;
@@ -40,7 +40,7 @@
         
     }
     }
-    // If there is no errors(User Input) left, create database, table, and insert the data
+    // If there is no errors(User Input) left, create the database, table, and insert the data
     if (empty($errors)) {
         echo "Successfully submitted!";
         $create_database = "CREATE DATABASE IF NOT EXISTS `$db_name` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
@@ -62,7 +62,7 @@
             'age' => $age,
             'gender' => $gender
             ]);
-    }header()
+    }
    
 
 
