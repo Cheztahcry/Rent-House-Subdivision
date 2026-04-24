@@ -6,6 +6,11 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/index.css">
 </head>
+<header>
+    <div class = "header">
+
+    </div>
+</header>
 <body>
     <div class = "table">
         <div class = "attributes">
