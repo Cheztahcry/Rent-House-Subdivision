@@ -39,19 +39,23 @@
             foreach($column as $name => $data_type){
                 $tabledat[] = "`$name` $data_type";
             }
-                $create_table = "CREATE TABLE `$table` (" . implode(', ', $tabledat) . ")";
+                $create_table = "CREATE TABLE IF NOT EXISTS `$table` (" . implode(', ', $tabledat) . ")";
                 $this->pdo->exec($create_table);
         }
 
-        public function insert_table($table, $att_2, $att_3, $att_4, $att_5){
-            $insert_info = "INSERT INTO `$table` (`lname`, `fname`, `age`, `gender`) VALUES(:lname, :fname, :age, :gender)";
-            $insert_info_query = $pdo->prepare($insert_info);
-            $insert_info_query->execute([
-            'lname' => $att_2, 
-            'fname' => $att_3, 
-            'age' => $att_4,
-            'gender' => $att5
-            ]);
+        public function insert_table($table, array $column){
+            unset($column['id']);
+            $attributes = array_keys($column);
+            $imp_att = implode(", ", $attributes);
+            $place_att = ":". implode(", :", $attributes);
+            $insert_info = "INSERT INTO `$table` ($imp_att) VALUES($place_att)";
+            try {
+                $insert = $this->pdo->prepare($insert_info);
+                return $insert->execute($column);
+                } 
+            catch (PDOException $e) {
+                die("Insert Error: " . $e->getMessage());
+                }
         }
 
 
@@ -82,8 +86,8 @@
        'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
        'lname' => 'VARCHAR(50) NOT NULL',
        'fname' => 'VARCHAR(50) NOT NULL',
-       'age' => 'INT(4) NOT NULL',
-       'gender' => 'VARCHAR(50) NOT NULL'
+       'age' => 'INT(3) NOT NULL',
+       'gender' => 'VARCHAR(20) NOT NULL'
     ];
 
     // If there is no errors(User Input) left, create database, table, and insert the data
@@ -95,6 +99,7 @@
             $config['password']
         );
         $database->create_table($tb_name, $field);
+        $database->insert_table($tb_name, $owner_info);
         echo "Successfully submitted!";
     }
 
