@@ -274,7 +274,7 @@
             </div>
 
             <!-- Address Information Section -->
-            <div class="section-title">🏠 Address Information</div>
+            <div class="section-title"> Address Information</div>
 
             <div class="form-row">
                 <div class="form-group">
@@ -290,7 +290,7 @@
             </div>
 
             <!-- Rent House Information Section -->
-            <div class="section-title">💰 Rent House Information</div>
+            <div class="section-title"> Rent House Information</div>
 
             <div class="form-row">
                 <div class="form-group">
