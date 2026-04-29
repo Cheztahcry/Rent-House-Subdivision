@@ -20,7 +20,7 @@ $rows = $owners->show_table("rent_house")
 </head>
 <header>
    
-    <img src="css/logo.png" class="logo" alt="Subdivision Logo">
+    <img src="assets/img/logo.png" class="logo" alt="Subdivision Logo">
      <h2 style="font-family:Arial, Helvetica, sans-serif;">RHS</h2>
     
 </header>
