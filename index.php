@@ -7,60 +7,67 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <header>
-    <div class = "header">
-
-    </div>
+   
+    <img src="css/logo.png" class="logo" alt="Subdivision Logo">
+     <h2 style="font-family:Arial, Helvetica, sans-serif;">RHS</h2>
+    
 </header>
+<html>
+    <footer>
+<img src="css/logo.png" class="logo" alt="Subdivision Logo">
+</footer>
+</html>
 <body>
-    <div class = "table">
-        <div class = "attributes">
-            <h3>Block Number</h3>
-            <label>1</label>
-            <label>2</label>
-            <label>3</label>
-            <label>4</label>
-            <label>5</label>
-        </div>
-         <div class = "attributes">
-            <h3>Lot Number</h3>
-            <label>1</label>
-            <label>2</label>
-            <label>3</label>
-            <label>4</label>
-            <label>5</label>
-        </div>
-        <div class = "attributes">
-            <h3>Owner</h3>
-            <label>Amara Rhodes</label>
-            <label>Elena Reed</label>
-            <label>Lydia Okafor</label>
-            <label>Nora Vane</label>
-            <label>Jasper Vance</label>
-        </div>
-        <div class = "attributes">
-            <h3>Rent Status</h3>
-            <label>For Rent</label>
-            <label>Not For Rent</label>
-            <label>For Rent</label>
-            <label>For Rent</label>
-            <label>Not For Rent</label>
-        </div>
-        <div class = "attributes">
-            <h3>Current Owner</h3>
-            <label>Amara Rhodes</label>
-            <label>Elena Reed</label>
-            <label>Lydia Okafor</label>
-            <label>Nora Vane</label>
-            <label>Jasper Vance</label>
-        </div>
-        <div class = "attributes">
-            <h3>Rent Price</h3>
-            <label>₱12,500</label>
-            <label>₱18,000</label>
-            <label>₱25,500</label>
-            <label>₱32,000</label>
-            <label>₱45,000</label>
-        </div>
-    </div> 
+    <div class = "dashboard-container">
+        
+          <table>
+    <tr>
+            <th>Block Number</th>
+            <th>Lot Number</th>
+            <th>Owner</th>
+            <th>Rent Status</th>
+            <th>Current Owner</th>
+            <th>Rent Prize</th>
+    </tr>
+            <td>1</td>
+            <td>1</td>
+            <td>Amara Rhodes</td>
+            <td>For Rent</td>
+            <td>Amara Rhodes</td>
+            <td>₱12,500</td>
+    </tr>
+     </tr>
+            <td>1</td>
+            <td>1</td>
+            <td>Amara Rhodes</td>
+            <td>For Rent</td>
+            <td>Amara Rhodes</td>
+            <td>₱12,500</td>
+    </tr>
+     </tr>
+            <td>1</td>
+            <td>1</td>
+            <td>Amara Rhodes</td>
+            <td>For Rent</td>
+            <td>Amara Rhodes</td>
+            <td>₱12,500</td>
+    </tr>
+     </tr>
+            <td>1</td>
+            <td>1</td>
+            <td>Amara Rhodes</td>
+            <td>For Rent</td>
+            <td>Amara Rhodes</td>
+            <td>₱12,500</td>
+    </tr>
+     </tr>
+            <td>1</td>
+            <td>1</td>
+            <td>Amara Rhodes</td>
+            <td>For Rent</td>
+            <td>Amara Rhodes</td>
+            <td>₱12,500</td>
+    </tr>
+        </table>
 </body>
 </html>
