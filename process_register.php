@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/json');
+header('Content-Type: application/json';
 
 // Include database configuration
 $config = require 'config.php';
