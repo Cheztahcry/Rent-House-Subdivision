@@ -1,4 +1,5 @@
 <?php
+/** COMMENTS R IMPORTANT*/
 /**
  * Database Class for Rent House Subdivision
  * 
