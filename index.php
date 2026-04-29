@@ -1,5 +1,5 @@
 <?php 
-require 'database.php';
+include 'database.php';
 $config = require 'config.php';
 $owners = new Database(
             $config['host'],
@@ -7,7 +7,7 @@ $owners = new Database(
             $config['user'],
             $config['password']
         );
-$rows = $owners->show_table("rent_house")
+$rows = $owners->show_table($tb_name)
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,23 +35,28 @@ $rows = $owners->show_table("rent_house")
         <table>
         <thead>
         <tr>
+            <th>Owner ID</th>
             <th>Block Number</th>
             <th>Lot Number</th>
             <th>Owner</th>
             <th>Rent Status</th>
             <th>Current Owner</th>
             <th>Rent Prize</th>
+            <th>Down Payment</th>
     </tr>
     <tbody>
         <?php foreach ($rows as $row): ?>
         
                 
-                        <tr><td>1</td>
-                        <td>1</td>
+                        <tr>
+                        <td><?= $row->id ?></td>
+                        <td><?= $row->blocknumber ?></td>
+                        <td><?= $row->lotnumber ?></td>
                         <td><?= $row->fname ?> <?= $row->lname?></td>
                         <td>For Rent</td>
                         <td><?= $row->fname ?> <?= $row->lname?></td>
-                        <td>₱12,500</td>
+                        <td><?= $row->rentprice ?></td>
+                        <td><?= $row->downpayment?></td>
                         </tr>
                 
         <?php endforeach; ?>

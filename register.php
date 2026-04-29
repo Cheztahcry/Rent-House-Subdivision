@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enrollment</title>
-    <link rel="stylesheet" href="register_style.css">
+    <link rel="stylesheet" href="css/register_style.css">
 </head>
 <body>
     <div class="student form">
@@ -32,8 +32,8 @@
                 <div class="field-group">
                     <label>Address</label>
                     <div class="field-row">
-                        <input type="number" name="address" id="block" placeholder="Block Number">
-                        <input type="number" name="address" id="lot" placeholder="Lot Number">
+                        <input type="number" name="blocknumber" id="blocknumber" placeholder="Block Number" min="1">
+                        <input type="number" name="lotnumber" id="lot_number" placeholder="Lot Number" min="1">
                     </div>
                 </div>
                 <div class="field-group">
@@ -56,7 +56,7 @@
                 <div class="field-group">
                     <label for="contact_number">Contact Number</label>
                     <div class="field-row">
-                        <input type="tel" name="contact_number" id="contact_number" placeholder="Contact Number" maxlength="11" pattern="[0-9]{11}">
+                        <input type="number" name="contact_number" id="contact_number" placeholder="Contact Number" maxlength="11" pattern="[0-9]{11}">
                     </div>
                 </div>
                 <div class="container">
@@ -64,13 +64,13 @@
                     <div class="field-group">
                         <label for="contact_number">Rent Price Monthly</label>
                         <div class="field-row">
-                            <input type="tel" name="contact_number" id="contact_number" placeholder="Rent Price">
+                            <input type="number" name="rentprice" id="rent_price" placeholder="Rent Price">
                         </div>
                     </div>
                     <div class="field-group">
                         <label for="contact_number">Down Payment</label>
                         <div class="field-row">
-                            <input type="tel" name="contact_number" id="contact_number" placeholder="Down Payment">
+                            <input type="number" name="downpayment" id="down_payment" placeholder="Down Payment">
                         </div>
                     </div>
                 </div>

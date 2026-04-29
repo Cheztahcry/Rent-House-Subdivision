@@ -2,11 +2,6 @@
     $tb_name = "rent_house";
     $conn = "";
     $config = require 'config.php';
-    $attribute_1 = "id";
-    $attribute_2 = "lname";
-    $attribute_3 = "fname";
-    $attribute_4 = "gender";
-    $attribute_5 = "age";
 
     class DataBase{
         private $pdo;
@@ -41,6 +36,8 @@
             }
                 $create_table = "CREATE TABLE IF NOT EXISTS `$table` (" . implode(', ', $tabledat) . ")";
                 $this->pdo->exec($create_table);
+                $add_column = "ALTER TABLE `$table` ADD COLUMN IF NOT EXISTS (" . implode(', ', $tabledat) . ")";
+                $this->pdo->exec($add_column);
         }
 
 
@@ -74,9 +71,19 @@
     $fname = trim(($_POST['fname'] ?? null));
     $gender = trim(($_POST['gender'] ?? null));
     $age = trim(($_POST['age'] ?? null));
+    $lot_number = trim(($_POST['lotnumber'] ?? null));
+    $block_number = trim(($_POST['blocknumber'] ?? null));
+    $rent_price = trim(($_POST['rentprice'] ?? null));
+    $down_payment = trim(($_POST['downpayment'] ?? null));
     $owner_info = ["fname" => $fname,
                   "lname" => $lname,
-                  "gender" => $gender
+                  "age" => $age,
+                  "gender" => $gender,
+                  "lotnumber" => $lot_number,
+                  "blocknumber" => $block_number,
+                  "rentprice" => $rent_price,
+                  "downpayment" => $down_payment
+                  
                   ];
     $errors = [];
     
@@ -84,7 +91,6 @@
     foreach ($owner_info as $info => $errorMessage) {
     if (empty(trim($_POST[$info] ?? ''))) {
         $errors[$info] = $errorMessage;
-        echo "Error: $errorMessage is required.";
         
     }
     }
@@ -93,8 +99,12 @@
        'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
        'lname' => 'VARCHAR(50) NOT NULL',
        'fname' => 'VARCHAR(50) NOT NULL',
-       'age' => 'INT(3) NOT NULL',
-       'gender' => 'VARCHAR(20) NOT NULL'
+       'age' => 'INT NOT NULL',
+       'gender' => 'VARCHAR(20) NOT NULL',
+       'lotnumber' => 'INT NOT NULL',
+       'blocknumber' => 'INT NOT NULL',
+       'rentprice' => 'DECIMAL(10, 2) NOT NULL',
+       'downpayment' => 'DECIMAL(10,2) NOT NULL'
     ];
 
     // If there is no errors(User Input) left, create database, table, and insert the data
@@ -108,11 +118,11 @@
         $database->create_table($tb_name, $field);
         $database->insert_table($tb_name, $owner_info);
         $rows = $database->show_table($tb_name);
-        foreach ($rows as $row) {
-            echo $row->fname;
-        }
-        echo "Successfully submitted!";
+        echo "Submit Successful";
+        header("Refresh: 5; url=index.php");
+        exit;
     }
+
         
 
         
