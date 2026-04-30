@@ -19,14 +19,14 @@ $rows = $owners->show_table($tb_name)
     
 </head>
 <header>
-   
+    
     <img src="assets/img/logo.png" class="logo" alt="Subdivision Logo">
      <h2 style="font-family:Arial, Helvetica, sans-serif;">RHS</h2>
-    
+    <a href="register.php" class="signin-btn">REGISTER MY HOUSE</a>
 </header>
 <html>
     <footer>
-<img src="css/logo.png" class="logo" alt="Subdivision Logo">
+<img src="assets/img/logo.png" class="logo" alt="Subdivision Logo">
 </footer>
 </html>
 <body>
@@ -43,6 +43,8 @@ $rows = $owners->show_table($tb_name)
             <th>Current Owner</th>
             <th>Rent Prize</th>
             <th>Down Payment</th>
+            <th>Contact Number</th>
+
     </tr>
     <tbody>
         <?php foreach ($rows as $row): ?>
@@ -57,6 +59,7 @@ $rows = $owners->show_table($tb_name)
                         <td><?= $row->fname ?> <?= $row->lname?></td>
                         <td><?= $row->rentprice ?></td>
                         <td><?= $row->downpayment?></td>
+                        <td><?= $row->contactnumber?></td>
                         </tr>
                 
         <?php endforeach; ?>

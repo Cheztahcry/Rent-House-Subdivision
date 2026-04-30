@@ -12,9 +12,6 @@
             <div class="page-header">
                 <nav class="page-nav">
                     <a class="nav-link" href="index.php">Home</a>
-                    <a class="nav-link" href="about.php">About</a>
-                    <a class="nav-link" href="contacts.php">Contacts</a>
-                    <a class="nav-link" href="login.php">Login</a>
                 </nav>
             </div>
             <h1>Owner Information</h1>
@@ -57,7 +54,7 @@
                 <div class="field-group">
                     <label for="contact_number">Contact Number</label>
                     <div class="field-row">
-                        <input type="number" name="contact_number" id="contact_number" placeholder="Contact Number" maxlength="11" pattern="[0-9]{11}">
+                        <input type="number" name="contactnumber" id="contact_number" placeholder="Contact Number" maxlength="11" pattern="[0-9]{11}">
                     </div>
                 </div>
                 <div class="container">
