@@ -1,10 +1,23 @@
+<?php
+session_start();
+
+$timeout = 60; // 1 minute
+
+if (isset($_SESSION['LAST_ACTIVITY']) && 
+    (time() - $_SESSION['LAST_ACTIVITY']) > $timeout) {
+    session_unset();
+    session_destroy();
+}
+
+$_SESSION['LAST_ACTIVITY'] = time();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="login_style.css">
+    <link rel="stylesheet" href="css/login_style.css">
 </head>
 <body>
     <div class="login-page">
