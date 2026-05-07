@@ -75,6 +75,7 @@
     $block_number = trim(($_POST['blocknumber'] ?? null));
     $rent_price = trim(($_POST['rentprice'] ?? null));
     $down_payment = trim(($_POST['downpayment'] ?? null));
+    $contact_number = trim(($_POST['contactnumber'] ?? null));
     $owner_info = ["fname" => $fname,
                   "lname" => $lname,
                   "age" => $age,
@@ -82,8 +83,8 @@
                   "lotnumber" => $lot_number,
                   "blocknumber" => $block_number,
                   "rentprice" => $rent_price,
-                  "downpayment" => $down_payment
-                  
+                  "downpayment" => $down_payment,
+                  "contactnumber" => $contact_number
                   ];
     $errors = [];
     
@@ -104,7 +105,8 @@
        'lotnumber' => 'INT NOT NULL',
        'blocknumber' => 'INT NOT NULL',
        'rentprice' => 'DECIMAL(10, 2) NOT NULL',
-       'downpayment' => 'DECIMAL(10,2) NOT NULL'
+       'downpayment' => 'DECIMAL(10,2) NOT NULL',
+       'contactnumber' => 'INT(4) NOT NULL'
     ];
 
     // If there is no errors(User Input) left, create database, table, and insert the data

@@ -2,7 +2,7 @@
 include 'database.php';
 $config = require 'config.php';
 $visit_time = date("Y-m-d H:i:s");
-setcookie("one minute timer", "running", time() + 60, "/");
+setcookie("one_minute_timer", "running", time() + 60, "/");
 $owners = new Database(
             $config['host'],
             $config['db'],
@@ -51,7 +51,8 @@ $rows = $owners->show_table($tb_name)
 
     </tr>
     <tbody>
-        <?php foreach ($rows as $row): ?>
+            <?php if ($rows): ?>
+            <?php foreach ($rows as $row): ?>
         
                 
                         <tr>
@@ -67,6 +68,7 @@ $rows = $owners->show_table($tb_name)
                         </tr>
                 
         <?php endforeach; ?>
+        <?php endif; ?>
         </tbody>
         </table>
         
