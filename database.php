@@ -1,18 +1,16 @@
 <?php
-    $tb_name = "rent_house";
+    $tb_name = "tbl_rentinfo";
     $conn = "";
     $config = require 'config.php';
 
     class DataBase{
-        private $pdo;
+        protected $pdo;
+        
         public function __construct(
-            private string $host,
-            private string $dbname,
-            private string $user,
-            private string $password
-              
         ){
-            $dsn = "mysql:host=$this->host";
+            $config = require 'config.php';
+
+            $dsn = "mysql:host=" . $config['host'];
             $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -20,9 +18,9 @@
             ];
 
             try {
-                $this->pdo = new PDO($dsn, $this->user, $this->password);
-                $this->pdo->exec("CREATE DATABASE IF NOT EXISTS `{$this->dbname}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-                $this->pdo->exec("USE `{$this->dbname}` ");
+                $this->pdo = new PDO($dsn, $config['user'], $config['password']);
+                $this->pdo->exec("CREATE DATABASE IF NOT EXISTS `{$config['dbname']}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+                $this->pdo->exec("USE `{$config['dbname']}` ");
             }
             catch (\PDOException $e) {
                 throw new \PDOException($e->getMessage(), (int)$e->getCode());
@@ -59,71 +57,14 @@
                 } 
             catch (PDOException $e) {
                 die("Insert Error: " . $e->getMessage());
+                if ($e->errorInfo[1] == 1062) {
+                echo "Duplicate entry detected!";
                 }
+
         }
-
-
-
-
-
     }
-    $lname = trim(($_POST['lname'] ?? null));
-    $fname = trim(($_POST['fname'] ?? null));
-    $gender = trim(($_POST['gender'] ?? null));
-    $age = trim(($_POST['age'] ?? null));
-    $lot_number = trim(($_POST['lotnumber'] ?? null));
-    $block_number = trim(($_POST['blocknumber'] ?? null));
-    $rent_price = trim(($_POST['rentprice'] ?? null));
-    $down_payment = trim(($_POST['downpayment'] ?? null));
-    $contact_number = trim(($_POST['contactnumber'] ?? null));
-    $owner_info = ["fname" => $fname,
-                  "lname" => $lname,
-                  "age" => $age,
-                  "gender" => $gender,
-                  "lotnumber" => $lot_number,
-                  "blocknumber" => $block_number,
-                  "rentprice" => $rent_price,
-                  "downpayment" => $down_payment,
-                  "contactnumber" => $contact_number
-                  ];
-    $errors = [];
+}
     
-    // Check for empty fields; If their is empty field add it to the error list
-    foreach ($owner_info as $info => $errorMessage) {
-    if (empty(trim($_POST[$info] ?? ''))) {
-        $errors[$info] = $errorMessage;
-        
-    }
-    }
-
-    $field = [
-       'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
-       'lname' => 'VARCHAR(50) NOT NULL',
-       'fname' => 'VARCHAR(50) NOT NULL',
-       'age' => 'INT NOT NULL',
-       'gender' => 'VARCHAR(20) NOT NULL',
-       'lotnumber' => 'INT NOT NULL',
-       'blocknumber' => 'INT NOT NULL',
-       'rentprice' => 'DECIMAL(10, 2) NOT NULL',
-       'downpayment' => 'DECIMAL(10,2) NOT NULL',
-       'contactnumber' => 'INT(4) NOT NULL'
-    ];
-
-    // If there is no errors(User Input) left, create database, table, and insert the data
-    if (empty($errors)) {
-        $database = new Database(
-            $config['host'],
-            $config['db'],
-            $config['user'],
-            $config['password']
-        );
-        $database->create_table($tb_name, $field);
-        $database->insert_table($tb_name, $owner_info);
-        $rows = $database->show_table($tb_name);
-        echo "Submit Successful";
-        header("Refresh: 5; url=index.php");
-        exit;
-    }
 
         
 

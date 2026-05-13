@@ -2,6 +2,7 @@
     'host' => 'localhost',
     'db'   => 'dbhouserent',
     'user' => 'root',
-    'password' => ''
+    'password' => '',
+    'dbname' => 'dbhouserent'
 ];
 ?>

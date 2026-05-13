@@ -19,8 +19,15 @@
 
             <h1>Rent House Information</h1>
             
-            <form action="database.php" method="post" id="rent-form">
+            <form action="rent_info_class.php" method="post" id="rent-form">
                 <!-- Monthly Rent Field -->
+                <div class="field-group">
+                    <label>Address</label>
+                    <div class="field-row">
+                        <input type="number" name="blocknumber" id="blocknumber" placeholder="Block Number" min="1">
+                        <input type="number" name="lotnumber" id="lot_number" placeholder="Lot Number" min="1">
+                    </div>
+                </div>
                 <div class="field-group">
                     <label for="rent_price">Rent Price Monthly</label>
                     <div class="field-row">

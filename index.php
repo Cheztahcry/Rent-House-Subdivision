@@ -1,15 +1,19 @@
-<?php 
-include 'database.php';
-$config = require 'config.php';
+<?php
+session_start();
+include_once 'rent_info_class.php';
 $visit_time = date("Y-m-d H:i:s");
 setcookie("one_minute_timer", "running", time() + 60, "/");
-$owners = new Database(
-            $config['host'],
-            $config['db'],
-            $config['user'],
-            $config['password']
-        );
-$rows = $owners->show_table($tb_name)
+$rent = new RentInfo();
+$rows = $rent->show_rentinfo();
+$user = false;
+if(isset($_SESSION["user_id"])){
+    include_once  'owner_info_class.php';
+    $owner = new OwnerInfo();
+    $user = $owner->show_ownerinfo($_SESSION["user_id"]);
+    
+
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,8 +29,16 @@ $rows = $owners->show_table($tb_name)
     <img src="assets/img/logo.png" class="logo" alt="Subdivision Logo">
 
     <a href="index.php" class="signin-btn">RHS</a>
-    <a href="register.php" class="signin-btn">REGISTER MY HOUSE</a>
-    <a href="login.php" class="signin-btn">LOG-IN</a>
+    <a href="rent_info.php" class="signin-btn">REGISTER MY HOUSE</a>
+
+    <?php if($user):?>
+        <p> Hello <?= htmlspecialchars($user->fname) ?></p>
+        <a href="logout.php" class="signin-btn">LOG-OUT</a>
+    <?php else:?>
+        <a href="login.php" class="signin-btn">LOG-IN</a>
+        <a href="owner_info.php" class="signin-btn">Register</a>
+    <?php endif;?>
+    
 </header>
 <html>
     <footer>
@@ -39,32 +51,26 @@ $rows = $owners->show_table($tb_name)
         <table>
         <thead>
         <tr>
-            <th>Owner ID</th>
+            <th>House ID</th>
             <th>Block Number</th>
             <th>Lot Number</th>
-            <th>Owner</th>
             <th>Rent Status</th>
-            <th>Current Owner</th>
             <th>Rent Prize</th>
             <th>Down Payment</th>
-            <th>Contact Number</th>
 
     </tr>
     <tbody>
-            <?php if ($rows): ?>
-            <?php foreach ($rows as $row): ?>
+        <?php if ($rows): ?>
+        <?php foreach ($rows as $row): ?>
         
                 
                         <tr>
                         <td><?= $row->id ?></td>
                         <td><?= $row->blocknumber ?></td>
                         <td><?= $row->lotnumber ?></td>
-                        <td><?= $row->fname ?> <?= $row->lname?></td>
                         <td>For Rent</td>
-                        <td><?= $row->fname ?> <?= $row->lname?></td>
                         <td><?= $row->rentprice ?></td>
                         <td><?= $row->downpayment?></td>
-                        <td><?= $row->contactnumber?></td>
                         </tr>
                 
         <?php endforeach; ?>

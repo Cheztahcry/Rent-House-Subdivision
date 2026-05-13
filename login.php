@@ -26,11 +26,11 @@ $_SESSION['LAST_ACTIVITY'] = time();
                 <h1>Login</h1>
                 <p>Access your account by entering your credentials.</p>
             </div>
-            <form action="login_process.php" method="post" id="login-form">
+            <form action="login_class.php" method="post" id="login-form">
                 <div class="field-group">
-                    <label for="username">Username or Email</label>
+                    <label for="email">Email</label>
                     <div class="field-row">
-                        <input type="text" name="username" id="username" placeholder="Username or Email">
+                        <input type="text" name="email" id="email" placeholder="Email">
                     </div>
                 </div>
                 <div class="field-group">
