@@ -1,8 +1,6 @@
 <?php
 session_start();
 include_once 'rent_info_class.php';
-$visit_time = date("Y-m-d H:i:s");
-setcookie("one_minute_timer", "running", time() + 60, "/");
 $rent = new RentInfo();
 $rows = $rent->show_rentinfo();
 $user = false;
