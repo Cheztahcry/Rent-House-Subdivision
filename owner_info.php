@@ -12,6 +12,7 @@
             <div class="page-header">
                 <nav class="page-nav">
                     <a class="nav-link" href="index.php">Home</a>
+                    <a class="nav-link" href="login.php">Login</a>
                 </nav>
             </div>
             <h1>Owner Information</h1>

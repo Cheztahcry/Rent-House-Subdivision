@@ -90,7 +90,8 @@ body {
 .field-row input[type="text"],
 .field-row input[type="number"],
 .field-row input[type="tel"],
-.field-row input[type="email"] {
+.field-row input[type="email"],
+.field-row input[type="password"] {
     width: 100%;
     min-height: 52px;
     padding: 14px 16px;
@@ -105,7 +106,8 @@ body {
 .field-row input[type="text"]:focus,
 .field-row input[type="number"]:focus,
 .field-row input[type="tel"]:focus,
-.field-row input[type="email"]:focus {
+.field-row input[type="email"]:focus,
+.field-row input[type="password"]:focus {
     outline: none;
     border-color: #5060f2;
     box-shadow: 0 0 0 4px rgba(80, 96, 242, 0.12);
