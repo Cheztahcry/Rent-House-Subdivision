@@ -1,0 +1,126 @@
+body {
+    background-image: url("../assets/img/bg_pic.jpg");
+    background-position: center;
+    background-size:cover;
+    background-attachment:fixed;
+    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin:  auto;
+    padding:  auto;
+   
+}
+.dashboard-container { 
+    border: 25px solid #939461; 
+    margin: 50px;
+    height: auto;
+    padding: 5px;
+    background-color: #e7ecc795; 
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+}
+table {
+    width: 70%;
+    border-collapse:collapse;
+    font-size: 16px;
+    margin-left: auto;
+    margin-right: auto;
+}
+th, td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #b4aa6bcc;
+}
+th {
+    background-color: #f4f4f4;
+    font-weight: 600;
+    width: 100%;
+}
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 30px;
+    background: #ced28ca7;
+    color: #0f1941;
+    gap: 24px;
+    backdrop-filter: blur(4px);
+}
+header, footer {
+    background: #ced28ca7;
+    color: #14180a;
+}
+footer {
+    text-align: center;
+    font-size: medium;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 12px 0;
+    backdrop-filter: blur(4px);
+}
+.logo_row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.header-links {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+.action-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.logo {
+    height: 50px;
+    width: auto;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px #d4d4d529;
+}
+.brand-title {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #0f1941;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+}
+.signin-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #0f1941;
+    background: rgba(255, 255, 255, 0.92);
+    padding: 10px 16px;
+    border: 1px solid rgba(15, 25, 65, 0.18);
+    text-decoration: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+}
+.signin-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    border-color: rgba(15, 25, 65, 0.28);
+    background: #ffffff;
+}
+.user_greet {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 14px;
+    background: #0f19411f;
+    color: #0f1941;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    box-shadow: inset 0 0 0 1px #0f194114;
+    backdrop-filter: blur(4px);
+}
