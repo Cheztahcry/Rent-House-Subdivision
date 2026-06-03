@@ -12,10 +12,11 @@
             <div class="page-header">
                 <nav class="page-nav">
                     <a class="nav-link" href="index.php">Home</a>
+                    <a class="nav-link" href="login.php">Login</a>
                 </nav>
             </div>
             <h1>Owner Information</h1>
-            <form action="database.php" method="post" id="owner-enrollment">
+            <form action="owner_info_class.php" method="post" id="owner-enrollment">
                 <div class="field-group">
                     <label>Full Name</label>
                     <div class="field-row">
@@ -25,13 +26,6 @@
                         <label class="checkbox-label">
                             <input type="checkbox" name="check_mname" id="check_mname" value="N/A"> I have no middle name
                         </label>
-                    </div>
-                </div>
-                <div class="field-group">
-                    <label>Address</label>
-                    <div class="field-row">
-                        <input type="number" name="blocknumber" id="blocknumber" placeholder="Block Number" min="1">
-                        <input type="number" name="lotnumber" id="lot_number" placeholder="Lot Number" min="1">
                     </div>
                 </div>
                 <div class="field-group">
@@ -54,7 +48,25 @@
                 <div class="field-group">
                     <label for="contact_number">Contact Number</label>
                     <div class="field-row">
-                        <input type="number" name="contactnumber" id="contact_number" placeholder="Contact Number" maxlength="11">
+                        <input type="tel" name="contactnumber" id="contact_number" placeholder="Contact Number" maxlength="11">
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label for="username">Enter Valid Email</label>
+                    <div class="field-row">
+                        <input type="text" name="email" id="username" placeholder="Email">
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label for="password">Create Password</label>
+                    <div class="field-row">
+                        <input type="password" name="password" id="password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label for="password">Confirm Password</label>
+                    <div class="field-row">
+                        <input type="password" name="confirm_password" id="password" placeholder="Password">
                     </div>
                 </div>
                 
