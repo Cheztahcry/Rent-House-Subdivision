@@ -77,6 +77,6 @@
             </form>
         </div>
     </div>
-    <script src="script/index.js"></script>
+    <script src="js/owner_info.js"></script>
 </body>
 </html>
