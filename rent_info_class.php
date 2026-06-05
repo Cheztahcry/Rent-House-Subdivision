@@ -18,7 +18,6 @@
             try {
                 return $this->show_table($this->tbl_name);
             }catch (PDOException $e) {
-                $rows = false;
                 die("No Data to Show. Please Restart");
             } 
             
@@ -36,7 +35,7 @@
                 "blocknumber" => $block_number,
                 "rentprice" => $rent_price,
                 "downpayment" => $down_payment,
-                "housestatus" => $house_status
+                "house_status" => $house_status
                   ];
     $create_info = [
        'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
@@ -44,24 +43,31 @@
        'blocknumber' => 'INT NOT NULL',
        'rentprice' => 'DECIMAL(10, 2) NOT NULL',
        'downpayment' => 'DECIMAL(10,2) NOT NULL',
-       'housestatus' => 'VARCHAR(20) NOT NULL'
+       'house_status' => 'VARCHAR(20) NOT NULL'
     ];
     $errors = [];
 
     
     foreach ($insert_info as $info => $errorMessage) {
-    if (empty(trim($_POST[$info] ?? ''))) {
+    // Clean up the input safely
+    $value = trim($_POST[$info] ?? '');
+    
+    // FIX: Check if the string length is 0. This allows '0' or 0 to be valid.
+    if ($value === '') {
         $errors[$info] = $errorMessage;
         
+        // Log or handle the specific missing field safely
+        // (Optional: You can just use $errorMessage here instead of hardcoding echoes)
+        return($_POST[$info] ?? "$info is missing/empty<br>");
     }
-    }
+}
 
     if (empty($errors)) {
         $rent = new RentInfo();
         $rent->rent_table($create_info);
         $rent->insert_rent_info($insert_info);
-        die("Submit Successful");
-        header("Refresh: 5; url=index.php");
+        echo("Submit Successful");
+        header("Location: index.php");
         exit;
     }
 

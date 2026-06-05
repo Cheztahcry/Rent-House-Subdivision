@@ -28,14 +28,14 @@
                 "lotnumber" => $lot_number,
                 "blocknumber" => $block_number,
                 "houseprice" => $house_price,
-                "housestatus" => $house_status
+                "house_status" => $house_status
                   ];
     $create_info = [
        'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
        'lotnumber' => 'INT NOT NULL',
        'blocknumber' => 'INT NOT NULL',
        'houseprice' => 'DECIMAL(30, 2) NOT NULL',
-       'housestatus' => 'VARCHAR(20) NOT NULL'
+       'house_status' => 'VARCHAR(20) NOT NULL'
     ];
     $errors = [];
 
@@ -43,7 +43,6 @@
     foreach ($insert_info as $info => $errorMessage) {
     if (empty(trim($_POST[$info] ?? ''))) {
         $errors[$info] = $errorMessage;
-        echo "Error";
         
     }
     }
