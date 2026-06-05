@@ -1,16 +1,24 @@
 <?php
 session_start();
-include_once __DIR__ . '/rent_info_class.php';
-
-
-
-if (class_exists('RentInfo')){
+$show_sale = false;
+$show_rent = true;
+$rows = null;
+if ($show_sale == true){
+    include_once __DIR__ . '/sale_info_class.php';
+    if (class_exists('SaleInfo')){
+    $sale = new SaleInfo();
+    $rows = $sale->show_saleinfo();
+    }
+}
+if ($show_rent == true){
+    include_once __DIR__ . '/rent_info_class.php';
+    if (class_exists('RentInfo')){
     $rent = new RentInfo();
     $rows = $rent->show_rentinfo();
+    }
 }
-else {
-    $rows = false;
-}
+
+
 $user = false;
 if(isset($_SESSION["user_id"])){
     include_once  'owner_info_class.php';
@@ -76,7 +84,12 @@ if(isset($_SESSION["user_id"])){
             <th>House ID</th>
             <th>Block Number</th>
             <th>Lot Number</th>
-            <th>House Status</th>
+            <th>Status</th>
+            <?php if ($show_sale): ?>
+            <th>Price</th>
+            <?php elseif ($show_rent): ?>
+            <th>Rent</th>
+            <th>Down Payment</th>
 
     </tr>
     <tbody>
@@ -88,12 +101,17 @@ if(isset($_SESSION["user_id"])){
                         <td><?= $row->id ?></td>
                         <td><?= $row->blocknumber ?></td>
                         <td><?= $row->lotnumber ?></td>
-                        <td>For Rent</td>
+                        <td><?= $row->house_status ?></td>
+                        <?php if ($show_sale): ?>
+                        <td><?= $row->houseprice ?></td>
+                        <?php elseif ($show_rent): ?>
+                        <td><?= $row->rentprice ?></td>
+                        <td><?= $row->downpayment ?></td>
                         <td><button> Inquire </button>
                         <button> Contact Seller </button>
                         <button> Bookmark </button>
                         </tr>
-                
+        <?php endif; ?>        
         <?php endforeach; ?>
         <?php else: ?>
             <tr>
@@ -102,6 +120,7 @@ if(isset($_SESSION["user_id"])){
                     Please try refreshing the page or check back later.
                 </td>
             </tr>
+        <?php endif; ?>
         <?php endif; ?>
         </tbody>
         </table>

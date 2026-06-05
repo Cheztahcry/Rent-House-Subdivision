@@ -14,7 +14,7 @@
             
             $this->insert_table($this->tbl_name, $info_list);
         }
-        public function show_rentinfo(){
+        public function show_saleinfo(){
             return $this->show_table($this->tbl_name);
         }
 
