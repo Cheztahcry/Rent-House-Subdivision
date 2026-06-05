@@ -41,11 +41,18 @@
 
     
     foreach ($insert_info as $info => $errorMessage) {
-    if (empty(trim($_POST[$info] ?? ''))) {
+    // Clean up the input safely
+    $value = trim($_POST[$info] ?? '');
+    
+    // FIX: Check if the string length is 0. This allows '0' or 0 to be valid.
+    if ($value === '') {
         $errors[$info] = $errorMessage;
         
+        // Log or handle the specific missing field safely
+        // (Optional: You can just use $errorMessage here instead of hardcoding echoes)
+        return($_POST[$info] ?? "$info is missing/empty<br>");
     }
-    }
+}
 
     if (empty($errors)) {
         $sale = new SaleInfo();
