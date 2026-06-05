@@ -1,4 +1,6 @@
 const middle_name = document.getElementById("mname")
+const age = document.getElementById("age")
+const password = document.getElementById("password")
 
 document.getElementById("check_mname").addEventListener("change", function () {
     if (middle_name.disabled == true){
@@ -119,7 +121,7 @@ document.getElementById("username").addEventListener("input", function() {
 });
 
 // Password field validation on blur
-document.getElementById("password").addEventListener("blur", function() {
+password.addEventListener("blur", function() {
     const password = this.value;
     
     if (password === "") {
@@ -137,7 +139,7 @@ document.getElementById("password").addEventListener("blur", function() {
 });
 
 // Password field validation on input (real-time feedback)
-document.getElementById("password").addEventListener("input", function() {
+password.addEventListener("input", function() {
     const password = this.value;
     const errors = validatePassword(password);
     
@@ -149,7 +151,7 @@ document.getElementById("password").addEventListener("input", function() {
 });
 
 // Age field validation on blur
-document.getElementById("age").addEventListener("blur", function() {
+age.addEventListener("blur", function() {
     const age = this.value.trim();
     
     if (age === "") {
@@ -158,14 +160,14 @@ document.getElementById("age").addEventListener("blur", function() {
     }
     
     if (!validateAge(age)) {
-        showValidationError("age", "you can't register if your age is below 18 years old");
+        showValidationError("age", "You can't register if your age is below 18 years old");
     } else {
         clearValidationError("age");
     }
 });
 
 // Age field validation on input (real-time)
-document.getElementById("age").addEventListener("input", function() {
+age.addEventListener("input", function() {
     if (this.value.trim() !== "" && !validateAge(this.value.trim())) {
         this.style.borderColor = "#ffcccc";
     } else {
@@ -173,7 +175,7 @@ document.getElementById("age").addEventListener("input", function() {
     }
 });
 
-// Form submission validation
+// Submitting without input validation
 document.getElementById("owner-enrollment").addEventListener("submit", function(e) {
     const email = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value;

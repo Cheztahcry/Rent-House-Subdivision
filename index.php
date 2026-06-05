@@ -1,8 +1,16 @@
 <?php
 session_start();
-include_once 'rent_info_class.php';
-$rent = new RentInfo();
-$rows = $rent->show_rentinfo();
+include_once __DIR__ . '/rent_info_class.php';
+
+
+
+if (class_exists('RentInfo')){
+    $rent = new RentInfo();
+    $rows = $rent->show_rentinfo();
+}
+else {
+    $rows = false;
+}
 $user = false;
 if(isset($_SESSION["user_id"])){
     include_once  'owner_info_class.php';
@@ -32,19 +40,35 @@ if(isset($_SESSION["user_id"])){
         <?php if($user):?>
             <span class="user_greet">HELLO, <?= htmlspecialchars($user->fname) ?></span>
             <div class="action-group">
-                <a href="rent_info.php" class="signin-btn">REGISTER MY HOUSE</a>
+                <a href="house_info.php" class="signin-btn">REGISTER MY HOUSE</a>
                 <a href="logout.php" class="signin-btn">LOG OUT</a>
             </div>
         <?php else:?>
             <div class="action-group">
-                <a href="rent_info.php" class="signin-btn">REGISTER MY HOUSE</a>
+                <a href="login.php" class="signin-btn">REGISTER MY HOUSE</a>
                 <a href="login.php" class="signin-btn">LOG IN</a>
                 <a href="owner_info.php" class="signin-btn">REGISTER</a>
             </div>
         <?php endif;?>
     </div>
 </header>
-    <div class = "dashboard-container">
+    <div>
+        <input type="text" name="search_bar" id="search_bar"><button> Search </button><button> Filter </button>
+        <select name="cars" id="cars">
+        <option value="volvo">Block</option>
+        <option value="saab">Lot</option>
+        <option value="mercedes">House Status</option>
+        </select>
+        <select name="cars" id="cars">
+        <option value="volvo">Ascending</option>
+        <option value="saab">Descending</option>
+        </select>
+    </div>
+
+    <button> For Sell </button>
+    <button> For Rent </button>
+    
+        <div class = "dashboard-container">
         
         <table>
         <thead>
@@ -52,13 +76,11 @@ if(isset($_SESSION["user_id"])){
             <th>House ID</th>
             <th>Block Number</th>
             <th>Lot Number</th>
-            <th>Rent Status</th>
-            <th>Rent Prize</th>
-            <th>Down Payment</th>
+            <th>House Status</th>
 
     </tr>
     <tbody>
-        <?php if ($rows): ?>
+        <?php if ($rows && count($rows) > 0): ?>
         <?php foreach ($rows as $row): ?>
         
                 
@@ -67,11 +89,19 @@ if(isset($_SESSION["user_id"])){
                         <td><?= $row->blocknumber ?></td>
                         <td><?= $row->lotnumber ?></td>
                         <td>For Rent</td>
-                        <td><?= $row->rentprice ?></td>
-                        <td><?= $row->downpayment?></td>
+                        <td><button> Inquire </button>
+                        <button> Contact Seller </button>
+                        <button> Bookmark </button>
                         </tr>
                 
         <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="5" style="text-align: center; padding: 20px; color: #666;">
+                    <strong>No properties are currently available.</strong><br>
+                    Please try refreshing the page or check back later.
+                </td>
+            </tr>
         <?php endif; ?>
         </tbody>
         </table>

@@ -26,7 +26,8 @@
                     exit;
                     
                 } else {
-                    echo "Wrong email or password.";
+                    die("Wrong email or password.");
+
                 }
             } else {
                 die("Account doesn't exist"); 

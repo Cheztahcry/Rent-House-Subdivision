@@ -1,49 +1,40 @@
 <?php
 
     require_once 'Database.php';
-    class RentInfo extends Database {
-        private string $tbl_name = "tbl_rentinfo";
+    class SaleInfo extends Database {
+        private string $tbl_name = "tbl_saleinfo";
         public function __construct() {
         parent::__construct();
     }
-        public function rent_table(array $info_list){
+        public function sale_table(array $info_list){
             
             $this->create_table($this->tbl_name, $info_list);
         }
-        public function insert_rent_info(array $info_list){
+        public function insert_sale_info(array $info_list){
             
             $this->insert_table($this->tbl_name, $info_list);
         }
         public function show_rentinfo(){
-            try {
-                return $this->show_table($this->tbl_name);
-            }catch (PDOException $e) {
-                $rows = false;
-                die("No Data to Show. Please Restart");
-            } 
-            
+            return $this->show_table($this->tbl_name);
         }
 
     }
     $lot_number = trim(($_POST['lotnumber'] ?? null));
     $block_number = trim(($_POST['blocknumber'] ?? null));
-    $rent_price = trim(($_POST['rentprice'] ?? null));
-    $down_payment = trim(($_POST['downpayment'] ?? null));
+    $house_price = trim(($_POST['houseprice'] ?? null));
     $house_status = trim(($_POST['house_status'] ?? null));
 
     $insert_info = [ 
                 "lotnumber" => $lot_number,
                 "blocknumber" => $block_number,
-                "rentprice" => $rent_price,
-                "downpayment" => $down_payment,
+                "houseprice" => $house_price,
                 "housestatus" => $house_status
                   ];
     $create_info = [
        'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
        'lotnumber' => 'INT NOT NULL',
        'blocknumber' => 'INT NOT NULL',
-       'rentprice' => 'DECIMAL(10, 2) NOT NULL',
-       'downpayment' => 'DECIMAL(10,2) NOT NULL',
+       'houseprice' => 'DECIMAL(30, 2) NOT NULL',
        'housestatus' => 'VARCHAR(20) NOT NULL'
     ];
     $errors = [];
@@ -52,16 +43,17 @@
     foreach ($insert_info as $info => $errorMessage) {
     if (empty(trim($_POST[$info] ?? ''))) {
         $errors[$info] = $errorMessage;
+        echo "Error";
         
     }
     }
 
     if (empty($errors)) {
-        $rent = new RentInfo();
-        $rent->rent_table($create_info);
-        $rent->insert_rent_info($insert_info);
-        die("Submit Successful");
-        header("Refresh: 5; url=index.php");
+        $sale = new SaleInfo();
+        $sale->sale_table($create_info);
+        $sale->insert_sale_info($insert_info);
+        echo "Submit Successful";
+        header("Refresh: 1; url=index.php");
         exit;
     }
 
