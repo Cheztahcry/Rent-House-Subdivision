@@ -2,19 +2,20 @@
 session_start();
 $show_sale = false;
 $show_rent = true;
-$rows = null;
+$rent_rows = null;
+$sale_rows = null;
 if ($show_sale == true){
     include_once __DIR__ . '/sale_info_class.php';
     if (class_exists('SaleInfo')){
     $sale = new SaleInfo();
-    $rows = $sale->show_saleinfo();
+    $sale_rows = $sale->show_saleinfo();
     }
 }
 if ($show_rent == true){
     include_once __DIR__ . '/rent_info_class.php';
     if (class_exists('RentInfo')){
     $rent = new RentInfo();
-    $rows = $rent->show_rentinfo();
+    $rent_rows = $rent->show_rentinfo();
     }
 }
 
@@ -60,12 +61,11 @@ if(isset($_SESSION["user_id"])){
         <?php endif;?>
     </div>
 </header>
-    <div>
+    <div class = "options">
         <input type="text" name="search_bar" id="search_bar"><button> Search </button><button> Filter </button>
         <select name="cars" id="cars">
         <option value="volvo">Block</option>
         <option value="saab">Lot</option>
-        <option value="mercedes">House Status</option>
         </select>
         <select name="cars" id="cars">
         <option value="volvo">Ascending</option>
@@ -73,62 +73,98 @@ if(isset($_SESSION["user_id"])){
         </select>
     </div>
 
-    <button> For Sell </button>
-    <button> For Rent </button>
-    
+    <input type = "button" id = "sale-button"> For Sale</input>
+    <input type = "button" id = "rent-button"> For Rent </input>
+
+        
+    <div class = "sale-dashboard" id = "sale-dashboard">
         <div class = "dashboard-container">
         
-        <table>
-        <thead>
-        <tr>
-            <th>House ID</th>
-            <th>Block Number</th>
-            <th>Lot Number</th>
-            <th>Status</th>
-            <?php if ($show_sale): ?>
-            <th>Price</th>
-            <?php elseif ($show_rent): ?>
-            <th>Rent</th>
-            <th>Down Payment</th>
-
-    </tr>
-    <tbody>
-        <?php if ($rows && count($rows) > 0): ?>
-        <?php foreach ($rows as $row): ?>
-        
-                
-                        <tr>
-                        <td><?= $row->id ?></td>
-                        <td><?= $row->blocknumber ?></td>
-                        <td><?= $row->lotnumber ?></td>
-                        <td><?= $row->house_status ?></td>
-                        <?php if ($show_sale): ?>
-                        <td><?= $row->houseprice ?></td>
-                        <?php elseif ($show_rent): ?>
-                        <td><?= $row->rentprice ?></td>
-                        <td><?= $row->downpayment ?></td>
-                        <td><button> Inquire </button>
-                        <button> Contact Seller </button>
-                        <button> Bookmark </button>
-                        </tr>
-        <?php endif; ?>        
-        <?php endforeach; ?>
-        <?php else: ?>
+            <table>
+            <thead>
             <tr>
-                <td colspan="5" style="text-align: center; padding: 20px; color: #666;">
-                    <strong>No properties are currently available.</strong><br>
-                    Please try refreshing the page or check back later.
-                </td>
+                <th>House ID</th>
+                <th>Block Number</th>
+                <th>Lot Number</th>
+                <th>Status</th>
+                <th>Price</th>
+
             </tr>
-        <?php endif; ?>
-        <?php endif; ?>
-        </tbody>
-        </table>
+            <tbody>
+                <?php if ($sale_rows && count($sale_rows) > 0): ?>
+                <?php foreach ($sale_rows as $row): ?>             
+                                <tr>
+                                <td><?= $row->id ?></td>
+                                <td><?= $row->blocknumber ?></td>
+                                <td><?= $row->lotnumber ?></td>
+                                <td><?= $row->house_status ?></td>
+                                <td><?= $row->houseprice ?></td>
+                                <td><button> Inquire </button>
+                                <button> Contact Seller </button>
+                                <button> Bookmark </button>
+                                </tr>
+                <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 20px; color: #666;">
+                            <strong>No properties are currently available.</strong><br>
+                            Please try refreshing the page or check back later.
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                </tbody>
+                </table>
+        </div>
+        
+    </div>
+    <div class = "rent-dashboard" id = "rent-dashboard">
+        <div class = "dashboard-container">
+        
+            <table>
+            <thead>
+            <tr>
+                <th>House ID</th>
+                <th>Block Number</th>
+                <th>Lot Number</th>
+                <th>Status</th>
+                <th>Rent</th>
+                <th>Down Payment</th>
+
+            </tr>
+            <tbody>
+                <?php if ($rent_rows && count($rent_rows) > 0): ?>
+                <?php foreach ($rent_rows as $row): ?>
+                
+                        
+                                <tr>
+                                <td><?= $row->id ?></td>
+                                <td><?= $row->blocknumber ?></td>
+                                <td><?= $row->lotnumber ?></td>
+                                <td><?= $row->house_status ?></td>
+                                <td><?= $row->rentprice ?></td>
+                                <td><?= $row->downpayment ?></td>
+                                <td><button> Inquire </button>
+                                <button> Contact Seller </button>
+                                <button> Bookmark </button>
+                                </tr>
+                <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 20px; color: #666;">
+                            <strong>No properties are currently available.</strong><br>
+                            Please try refreshing the page or check back later.
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                </tbody>
+                </table>
+            </div>
+    </div>
         
 </body>
-</div>
  <footer>
         <p>© 2026 RHS by C.J.C. All rights reserved.</p>
     </footer>
+        <script src="js/index.js" defer></script>
 </body>
 </html>
