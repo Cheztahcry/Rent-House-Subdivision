@@ -64,18 +64,18 @@ if(isset($_SESSION["user_id"])){
     <div class = "options">
         <div class="status-toggle">
             <label class="status-option">
-                <input type="radio" name="property_status" value="sale" checked>
+                <input type="radio" name="property_status" id= "sale-radio" value="sale">
                 <span>For Sale</span>
             </label>
             <label class="status-option">
-                <input type="radio" name="property_status" value="rent">
+                <input type="radio" name="property_status" id= "rent-radio" value="rent">
                 <span>For Rent</span>
             </label>
         </div>
 
         <div class="search-field">
             <span class="search-icon" aria-hidden="true"></span>
-            <input type="text" name="search_bar" id="search_bar" class="search-input" placeholder="Search by location, block, or ID...">
+            <input type="text" name="search_bar" id="search_bar" class="search-input" placeholder="Search by block, lot or ID...">
         </div>
         <button type="button" class="option-btn search-btn">Search</button>
         <button type="button" class="option-btn filter-btn">Filter</button>
@@ -91,6 +91,9 @@ if(isset($_SESSION["user_id"])){
                 <option value="desc">Descending</option>
             </select>
         </div>
+    </div>
+    <div id = "search-results">
+        
     </div>
 
         
