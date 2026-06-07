@@ -62,19 +62,36 @@ if(isset($_SESSION["user_id"])){
     </div>
 </header>
     <div class = "options">
-        <input type="text" name="search_bar" id="search_bar"><button> Search </button><button> Filter </button>
-        <select name="cars" id="cars">
-        <option value="volvo">Block</option>
-        <option value="saab">Lot</option>
-        </select>
-        <select name="cars" id="cars">
-        <option value="volvo">Ascending</option>
-        <option value="saab">Descending</option>
-        </select>
-    </div>
+        <div class="status-toggle">
+            <label class="status-option">
+                <input type="radio" name="property_status" value="sale" checked>
+                <span>For Sale</span>
+            </label>
+            <label class="status-option">
+                <input type="radio" name="property_status" value="rent">
+                <span>For Rent</span>
+            </label>
+        </div>
 
-    <input type = "button" id = "sale-button"> For Sale</input>
-    <input type = "button" id = "rent-button"> For Rent </input>
+        <div class="search-field">
+            <span class="search-icon" aria-hidden="true"></span>
+            <input type="text" name="search_bar" id="search_bar" class="search-input" placeholder="Search by location, block, or ID...">
+        </div>
+        <button type="button" class="option-btn search-btn">Search</button>
+        <button type="button" class="option-btn filter-btn">Filter</button>
+        <div class="filter-group">
+            <label class="visually-hidden" for="sort_by">Sort by</label>
+            <select name="sort_by" id="sort_by" class="filter-select">
+                <option value="block">Block Number</option>
+                <option value="lot">Lot Number</option>
+            </select>
+            <label class="visually-hidden" for="sort_order">Sort order</label>
+            <select name="sort_order" id="sort_order" class="filter-select">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+    </div>
 
         
     <div class = "sale-dashboard" id = "sale-dashboard">
@@ -88,21 +105,24 @@ if(isset($_SESSION["user_id"])){
                 <th>Lot Number</th>
                 <th>Status</th>
                 <th>Price</th>
-
+                <th>Actions</th>
             </tr>
+            </thead>
             <tbody>
                 <?php if ($sale_rows && count($sale_rows) > 0): ?>
                 <?php foreach ($sale_rows as $row): ?>             
-                                <tr>
-                                <td><?= $row->id ?></td>
-                                <td><?= $row->blocknumber ?></td>
-                                <td><?= $row->lotnumber ?></td>
-                                <td><?= $row->house_status ?></td>
-                                <td><?= $row->houseprice ?></td>
-                                <td><button> Inquire </button>
-                                <button> Contact Seller </button>
-                                <button> Bookmark </button>
-                                </tr>
+                <tr>
+                    <td><?= $row->id ?></td>
+                    <td><?= $row->blocknumber ?></td>
+                    <td><?= $row->lotnumber ?></td>
+                    <td><?= $row->house_status ?></td>
+                    <td><?= $row->houseprice ?></td>
+                    <td class="action-cell">
+                        <button type="button" class="action-btn inquire-btn">Inquire</button>
+                        <button type="button" class="action-btn contact-btn">Contact Seller</button>
+                        <button type="button" class="action-btn bookmark-btn"><span class="btn-icon" aria-hidden="true">♥</span> Bookmark</button>
+                    </td>
+                </tr>
                 <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
@@ -129,24 +149,25 @@ if(isset($_SESSION["user_id"])){
                 <th>Status</th>
                 <th>Rent</th>
                 <th>Down Payment</th>
-
+                <th>Actions</th>
             </tr>
+            </thead>
             <tbody>
                 <?php if ($rent_rows && count($rent_rows) > 0): ?>
                 <?php foreach ($rent_rows as $row): ?>
-                
-                        
-                                <tr>
-                                <td><?= $row->id ?></td>
-                                <td><?= $row->blocknumber ?></td>
-                                <td><?= $row->lotnumber ?></td>
-                                <td><?= $row->house_status ?></td>
-                                <td><?= $row->rentprice ?></td>
-                                <td><?= $row->downpayment ?></td>
-                                <td><button> Inquire </button>
-                                <button> Contact Seller </button>
-                                <button> Bookmark </button>
-                                </tr>
+                <tr>
+                    <td><?= $row->id ?></td>
+                    <td><?= $row->blocknumber ?></td>
+                    <td><?= $row->lotnumber ?></td>
+                    <td><?= $row->house_status ?></td>
+                    <td><?= $row->rentprice ?></td>
+                    <td><?= $row->downpayment ?></td>
+                    <td class="action-cell">
+                        <button type="button" class="action-btn inquire-btn">Inquire</button>
+                        <button type="button" class="action-btn contact-btn">Contact Seller</button>
+                        <button type="button" class="action-btn bookmark-btn"><span class="btn-icon" aria-hidden="true">♥</span> Bookmark</button>
+                    </td>
+                </tr>
                 <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
