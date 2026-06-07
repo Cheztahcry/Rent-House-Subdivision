@@ -187,5 +187,8 @@ if(isset($_SESSION["user_id"])){
         <p>© 2026 RHS by C.J.C. All rights reserved.</p>
     </footer>
         <script src="js/index.js" defer></script>
+        <script src="js/jquery.js" defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 </body>
 </html>
