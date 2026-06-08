@@ -125,12 +125,18 @@ header, footer {
     background: #fff;
 }
 .search-btn {
-    background: #6b7d4c;
+    background: #cfd28cc4;
     color: #ffffff;
 }
+.option-btn.search-btn:hover,
+.search-btn:hover {
+    background: #cfd28c;
+    color: #ffffff;
+    box-shadow: 0 14px 28px rgba(15, 25, 65, 0.12);
+}
 .filter-btn {
-    background: #f7f2e9;
-    color: #3d472f;
+    background: #cfd28cc4;
+    color: #9fa273;
     border: 1px solid rgba(143, 168, 130, 0.16);
 }
 .visually-hidden {
@@ -251,11 +257,18 @@ footer {
 .status-option input {
     position: absolute;
     opacity: 0;
-    pointer-events: none;
 }
 
 .status-option:hover {
     background: rgba(143, 168, 130, 0.12);
+}
+
+.status-option.active,
+.status-option input:checked + span {
+    background: #686b40a7;
+    color: #1f3115;
+    box-shadow: 0 14px 28px rgba(143, 168, 130, 0.18);
+    border-color: rgba(143, 168, 130, 0.24);
 }
 
 .status-option input:checked + span {
@@ -318,6 +331,26 @@ footer {
     flex-wrap: wrap;
     align-items: center;
     margin-left: auto;
+}
+
+/* Make filter group visually consistent with other controls and toggleable */
+.filter-group {
+    background: rgba(255,255,255,0.95);
+    padding: 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(143,168,130,0.12);
+    box-shadow: 0 10px 24px rgba(15,25,65,0.06);
+}
+
+.filter-group.hidden {
+    display: none !important;
+    opacity: 0;
+    transform: translateY(-6px);
+}
+
+.filter-btn.active {
+    background: #e6edd6;
+    box-shadow: 0 10px 24px rgba(15,25,65,0.06);
 }
 
 .filter-select {
