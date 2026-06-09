@@ -47,7 +47,7 @@ if(isset($_SESSION["user_id"])){
     </div>
     <div class="header-links">
         <?php if($user):?>
-            <span class="user_greet">HELLO, <?= htmlspecialchars($user->fname) ?></span>
+            <a href="owner_dashboard.php" class="signin-btn">Hello, <?= htmlspecialchars($user->fname) ?>!</a>
             <div class="action-group">
                 <a href="house_info.php" class="signin-btn">REGISTER MY HOUSE</a>
                 <a href="logout.php" class="signin-btn">LOG OUT</a>
