@@ -2,9 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const radioButtons = document.querySelectorAll('input[name="property_status"]');
     const sale_dashboard = document.getElementById('sale-dashboard');
     const rent_dashboard = document.getElementById('rent-dashboard');
-    const searchBar = document.getElementById('search_bar');
-    const searchBtn = document.querySelector('.search-btn');
-    const searchResults = document.getElementById('search-results');
 
     function updateActiveLabel() {
         radioButtons.forEach(radio => {
@@ -39,67 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
         radio.addEventListener('change', changeInfo);
         const label = radio.closest('.status-option');
         if (label) label.addEventListener('click', () => setTimeout(changeInfo, 10));
-    });
-
-    // ===================== SEARCH FUNCTIONALITY =====================
-    function performSearch() {
-        const searchValue = searchBar.value.trim();
-        const selectedType = document.querySelector('input[name="property_status"]:checked');
-        
-        if (!searchValue) {
-            searchResults.innerHTML = '<h6 class="text-center mt-3">Please enter a search term</h6>';
-            return;
-        }
-
-        if (!selectedType) {
-            searchResults.innerHTML = '<h6 class="text-center mt-3">Please select For Sale or For Rent</h6>';
-            return;
-        }
-
-        // Show loading message
-        searchResults.innerHTML = '<h6 class="text-center mt-3">Searching...</h6>';
-
-        // Send AJAX request
-        const formData = new FormData();
-        formData.append('input', searchValue);
-        formData.append('type', selectedType.value);
-
-        fetch('search_class.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-            searchResults.innerHTML = data;
-            // Hide dashboards when showing search results
-            sale_dashboard.style.display = 'none';
-            rent_dashboard.style.display = 'none';
-        })
-        .catch(error => {
-            searchResults.innerHTML = '<h6 class="text-center mt-3">Error performing search. Please try again.</h6>';
-            console.error('Search error:', error);
-        });
-    }
-
-    // Search button click event
-    if (searchBtn) {
-        searchBtn.addEventListener('click', performSearch);
-    }
-
-    // Search on Enter key press
-    if (searchBar) {
-        searchBar.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
-    }
-
-    // Clear search results when changing between Sale/Rent (optional)
-    radioButtons.forEach(radio => {
-        radio.addEventListener('change', () => {
-            searchResults.innerHTML = '';
-        });
     });
 
     // Filter UI and functionality
@@ -165,4 +101,3 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sortBy) sortBy.addEventListener('change', applySorting);
     if (sortOrder) sortOrder.addEventListener('change', applySorting);
 });
-
