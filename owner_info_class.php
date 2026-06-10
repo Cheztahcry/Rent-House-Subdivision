@@ -31,6 +31,21 @@
             return $user;
         }
 
+        // Update owner record by id. $data is associative array of column => value
+        public function update_owner($id, array $data) {
+            if (empty($data)) return false;
+            $sets = [];
+            $params = [];
+            foreach ($data as $col => $val) {
+                $sets[] = "`$col` = :$col";
+                $params[":$col"] = $val;
+            }
+            $params[':id'] = $id;
+            $sql = "UPDATE `{$this->tbl_name}` SET " . implode(', ', $sets) . " WHERE id = :id";
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute($params);
+        }
+
     }
     $lname = trim(($_POST['lname'] ?? null));
     $fname = trim(($_POST['fname'] ?? null));

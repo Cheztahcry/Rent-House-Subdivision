@@ -47,7 +47,11 @@ class SearchResults extends Database{
 
 <?php 
         }else{
-        echo "<h6 class = 'text-danger text-center mt-3'> No Data Found</h6>";
+            echo "<div class='no-results-card'>";
+            echo "<div class='no-results-icon' aria-hidden='true'>🔎</div>";
+            echo "<h3>No results found</h3>";
+            echo "<p>Try searching by another block number, lot number, or house ID.</p>";
+            echo "</div>";
     }
     }
 }

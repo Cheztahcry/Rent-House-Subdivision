@@ -1,60 +1,98 @@
-let radioButtons = document.querySelectorAll('input[name="acct-stat"]');
+const radioButtons = document.querySelectorAll('input[name="acct-stat"]');
 const acct_info = document.getElementById("acct-info-content");
 const acct_tran = document.getElementById("acct-tran-content");
-const input_fields = acct_info.querySelectorAll('input');
-const password = document.getElementById("password")
+const input_fields = acct_info ? acct_info.querySelectorAll('input') : [];
+const password = document.getElementById("password");
 const edit_button = document.getElementById("edit");
 const save_button = document.getElementById("save");
-let button_stat = false
+let button_stat = false;
 
+function updateActiveTab() {
+    radioButtons.forEach(radio => {
+        const label = radio.closest('.status-option');
+        if (!label) return;
+        if (radio.checked) label.classList.add('active');
+        else label.classList.remove('active');
+    });
+}
 
-
-
-
-
-
+function setReadOnlyMode(enabled) {
+    input_fields.forEach(input => {
+        input.disabled = enabled;
+        input.style.backgroundColor = enabled ? '#f4f5ff' : '#ffffff';
+    });
+}
 
 function changeInfo() {
     const checkedRadio = document.querySelector('input[name="acct-stat"]:checked');
+    updateActiveTab();
 
-    if (checkedRadio) {
-        if (checkedRadio.value === "Account Information") {
-            acct_info.style.display = "block";
-            acct_tran.style.display = "none";
-            save_button.style.display = "none";
-            input_fields.forEach(input =>{
-                input.disabled = true;
-                input.style.backgroundColor = "#cccccc"});
-        }
-        else if (checkedRadio.value === "Account Transaction") {
-            acct_info.style.display = "none";  
-            acct_tran.style.display = "block"; 
-
-        }
-    }
-    else
-        {
+    if (checkedRadio && checkedRadio.value === "Account Information") {
+        acct_info.style.display = "block";
+        acct_tran.style.display = "none";
+        save_button.style.display = button_stat ? 'inline-flex' : 'none';
+        setReadOnlyMode(!button_stat);
+    } else if (checkedRadio && checkedRadio.value === "Account Transaction") {
+        acct_info.style.display = "none";
+        acct_tran.style.display = "block";
+        save_button.style.display = 'none';
+        setReadOnlyMode(true);
+        button_stat = false;
+        if (edit_button) edit_button.style.backgroundColor = '#f4f5ff';
+    } else {
         acct_info.style.display = "none";
         acct_tran.style.display = "none";
-        
-        }
-        
+    }
 }
-edit_button.addEventListener("click", function(){
-    button_stat = !button_stat;
-    if (button_stat == true){
-        edit_button.style.backgroundColor = "#cccccc"
-        password.disabled = false
-        password.style.backgroundColor = "#ffffff"
-        save_button.style.display = "block";
-    }
-    else if (button_stat == false){
-        edit_button.style.backgroundColor = "#ffffff"
-        password.disabled = true
-        password.style.backgroundColor = "#cccccc"
-        save_button.style.display = "none";
-    }
-})
+
+if (edit_button) {
+    edit_button.addEventListener("click", function() {
+        button_stat = !button_stat;
+        edit_button.style.backgroundColor = button_stat ? '#5060f2' : '#f4f5ff';
+        edit_button.style.color = button_stat ? '#ffffff' : '#38416f';
+        save_button.style.display = button_stat ? 'inline-flex' : 'none';
+        setReadOnlyMode(!button_stat);
+        if (password) password.disabled = !button_stat;
+    });
+}
+
+// Save handler: submit updated fields via AJAX
+if (save_button) {
+    save_button.addEventListener('click', function() {
+        // gather values
+        const data = new FormData();
+        input_fields.forEach(input => data.append(input.name, input.value));
+        if (password) data.append('password', password.value);
+
+        save_button.disabled = true;
+        save_button.textContent = 'Saving...';
+
+        fetch('update_owner.php', {
+            method: 'POST',
+            body: data
+        }).then(r => r.json())
+        .then(res => {
+            if (res.success) {
+                // disable editing mode
+                button_stat = false;
+                setReadOnlyMode(true);
+                if (edit_button) {
+                    edit_button.style.backgroundColor = '#f4f5ff';
+                    edit_button.style.color = '#38416f';
+                }
+                save_button.style.display = 'none';
+            } else {
+                alert(res.message || 'Failed to save');
+            }
+        }).catch(err => {
+            console.error(err);
+            alert('An error occurred saving your information.');
+        }).finally(() => {
+            save_button.disabled = false;
+            save_button.textContent = 'Save Information';
+        });
+    });
+}
 
 changeInfo();
 radioButtons.forEach(radio => {

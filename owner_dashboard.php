@@ -33,38 +33,44 @@ if(isset($_SESSION["user_id"])){
             </div>
 
             <h1>Account Dashboard</h1>
-            
 
-                <div class="acct-tab" id = "acct-tab">
-                        <label class="status-option">
-                        <input type="radio" name="acct-stat" id= "acct-info-radio" value="Account Information">
-                        <span>Account Information</span>
-                         </label>
-                        <label class="status-option">
-                        <input type="radio" name="acct-stat" id= "acct-tran-radio" value="Account Transaction">
-                        <span>Account Transaction</span>
+                <div class="acct-tab" id="acct-tab">
+                    <div class="acct-tabs">
+                        <label class="status-option acct-tab-button">
+                            <input type="radio" name="acct-stat" id="acct-info-radio" value="Account Information" checked>
+                            <span>Account Information</span>
                         </label>
+                        <label class="status-option acct-tab-button">
+                            <input type="radio" name="acct-stat" id="acct-tran-radio" value="Account Transaction">
+                            <span>Account Transaction</span>
+                        </label>
+                    </div>
+
+                    <div class="button-row">
+                        <button type="button" id="edit" class="secondary-btn">Edit Information</button>
+                        <button type="button" id="save" class="primary-btn">Save Information</button>
+                    </div>
+
                     <?php if($user):?>
-                    <div id = "acct-info-content">
-                        <button type="button" id="edit">Edit Information</button>
+                    <div class="acct-panel" id="acct-info-content">
                         <div class="field-group">
                             <label>Full Name</label>
                             <div class="field-row">
-                                <input type="text" name="lname" placeholder="Last Name" required value = <?= htmlspecialchars($user->fname) ?>>
-                                <input type="text" name="fname" placeholder="First Name" required value = <?= htmlspecialchars($user->lname) ?>>
+                                <input type="text" name="lname" placeholder="Last Name" required value="<?= htmlspecialchars($user->lname) ?>">
+                                <input type="text" name="fname" placeholder="First Name" required value="<?= htmlspecialchars($user->fname) ?>">
                                 <input type="text" name="mname" id="mname" placeholder="Middle Name">
                             </div>
                         </div>
                         <div class="field-group">
                             <label>Age</label>
                             <div class="field-row">
-                                <input type="number" name="age" id="age" placeholder="Age" min="1" value = <?= htmlspecialchars($user->age) ?>>
+                                <input type="number" name="age" id="age" placeholder="Age" min="1" value="<?= htmlspecialchars($user->age) ?>">
                             </div>
                         </div>
                         <div class="field-group">
                             <label>Gender</label>
                             <div class="field-row">
-                                <input type="text" name="lname" placeholder="Last Name" required value = <?= htmlspecialchars($user->gender) ?>>
+                                <input type="text" name="gender" placeholder="Gender" required value="<?= htmlspecialchars($user->gender) ?>">
                             </div>
                         </div>
                         <div class="field-group">
@@ -76,38 +82,33 @@ if(isset($_SESSION["user_id"])){
                         <div class="field-group">
                             <label for="username">Email</label>
                             <div class="field-row">
-                                <input type="text" name="email" id="username" placeholder="Email" value = <?= htmlspecialchars($user->email) ?>>
+                                <input type="email" name="email" id="username" placeholder="Email" value="<?= htmlspecialchars($user->email) ?>">
                             </div>
                         </div>
                         <div class="field-group">
                             <label for="password">Change Password</label>
                             <div class="field-row">
-                                <input type="password" name="password" id="password" placeholder="Password" value>
+                                <input type="password" name="password" id="password" placeholder="Password">
                             </div>
                         </div>
-                        <?php endif;?>
-                        <button type="button" id="save">Save Information</button>
-                        
-                        
-
                     </div>
+                    <?php endif; ?>
 
-
-                    <div id = "acct-tran-content">
-                        <div class="status-toggle">
-                            <label class="status-option">
-                            <input type="radio" name="property_status" id= "sale-radio" value="sale">
-                            <span>For Sale</span>
-                            </label>
-                            <label class="status-option">
-                            <input type="radio" name="property_status" id= "rent-radio" value="rent">
-                            <span>For Rent</span>
-                            </label>
+                    <div class="acct-panel hidden" id="acct-tran-content">
+                        <div class="transaction-summary">
+                            <h2>Account Transactions</h2>
+                            <p class="transaction-note">Select a record to view transaction details or update your account activity.</p>
                         </div>
-                        
+                        <div class="transaction-card">
+                            <div class="transaction-card__header">
+                                <span>Recent Activity</span>
+                                <span class="transaction-status">No transactions yet</span>
+                            </div>
+                            <div class="transaction-card__body">
+                                <p class="transaction-card__message">Your account is active, and all updates will appear here once available.</p>
+                            </div>
+                        </div>
                     </div>
-                    
-                
                 </div>
                 
 

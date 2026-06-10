@@ -135,9 +135,23 @@ header, footer {
     box-shadow: 0 14px 28px rgba(15, 25, 65, 0.12);
 }
 .filter-btn {
+    position: relative;
     background: #cfd28cc4;
     color: #9fa273;
     border: 1px solid rgba(143, 168, 130, 0.16);
+    padding-right: 38px;
+}
+
+.filter-btn::after {
+    content: '▾';
+    position: absolute;
+    right: 14px;
+    font-size: 0.88rem;
+    transition: transform 0.2s ease;
+}
+
+.filter-btn.active::after {
+    transform: rotate(180deg);
 }
 .visually-hidden {
     position: absolute;
@@ -215,16 +229,37 @@ footer {
 .user_greet {
     display: inline-flex;
     align-items: center;
-    padding: 10px 14px;
-    background: #0f19411f;
-    color: #0f1941;
+    gap: 10px;
+    padding: 12px 18px;
+    background: rgba(79, 108, 228, 0.12);
+    color: #1d2d62;
     border-radius: 999px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    box-shadow: 0 12px 26px rgba(79, 108, 228, 0.08);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(79, 108, 228, 0.18);
+    text-decoration: none;
+}
+
+.user_greet:hover {
+    background: rgba(79, 108, 228, 0.18);
+    color: #12204b;
+}
+
+.user_greet .user-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #4f6ce4;
     font-size: 0.95rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    box-shadow: inset 0 0 0 1px #0f194114;
-    backdrop-filter: blur(4px);
+    box-shadow: inset 0 0 0 1px rgba(79, 108, 228, 0.12);
 }
 
 .status-toggle {
@@ -325,21 +360,116 @@ footer {
     outline: none;
 }
 
+.no-results-card {
+    max-width: 520px;
+    margin: 0;
+    padding: 30px 28px;
+    text-align: center;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 24px 48px rgba(15, 25, 65, 0.08);
+    border: 1px solid rgba(143, 168, 130, 0.12);
+    animation: fadeUp 420ms cubic-bezier(.2,.9,.2,1) both;
+}
+
+.no-results-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 62px;
+    height: 62px;
+    margin-bottom: 18px;
+    border-radius: 50%;
+    background: rgba(79, 108, 228, 0.12);
+    color: #4f6ce4;
+    font-size: 1.6rem;
+    animation: pop 480ms cubic-bezier(.2,.9,.2,1) both;
+}
+
+.no-results-card h3 {
+    margin: 0;
+    font-size: 1.35rem;
+    color: #1f334f;
+    letter-spacing: -0.02em;
+}
+
+.no-results-card p {
+    margin: 10px auto 0;
+    max-width: 420px;
+    color: #5f6f8c;
+    line-height: 1.7;
+    font-size: 0.98rem;
+}
+
+/* Center search-results container so no-results card sits in middle */
+#search-results {
+    min-height: calc(100vh - 260px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px) scale(.996); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pop {
+    0% { transform: scale(.86); opacity: 0; }
+    60% { transform: scale(1.06); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
 .filter-group {
     display: flex;
+    flex-direction: column;
     gap: 12px;
-    flex-wrap: wrap;
-    align-items: center;
+    align-items: stretch;
     margin-left: auto;
+    min-width: 260px;
 }
 
 /* Make filter group visually consistent with other controls and toggleable */
 .filter-group {
     background: rgba(255,255,255,0.95);
-    padding: 8px;
-    border-radius: 999px;
-    border: 1px solid rgba(143,168,130,0.12);
-    box-shadow: 0 10px 24px rgba(15,25,65,0.06);
+    padding: 16px 16px 14px;
+    border-radius: 24px;
+    border: 1px solid rgba(143,168,130,0.16);
+    box-shadow: 0 20px 40px rgba(15,25,65,0.08);
+}
+
+.filter-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    color: #3f4c32;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.filter-controls {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.filter-control {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-label {
+    color: #6d7b52;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
 .filter-group.hidden {
