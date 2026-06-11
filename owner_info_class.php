@@ -12,7 +12,8 @@
        'age' => 'INT NOT NULL',
        'gender' => 'VARCHAR(20) NOT NULL',
        'email' => 'VARCHAR(50) NOT NULL UNIQUE',
-       'password_hash' => 'VARCHAR(255) NOT NULL '
+             'password_hash' => 'VARCHAR(255) NOT NULL ',
+             'picture' => 'VARCHAR(255) NULL'
         ];
     }
         public function owner_table(){
@@ -31,17 +32,16 @@
             return $user;
         }
 
-        // Update owner record by id. $data is associative array of column => value
-        public function update_owner($id, array $data) {
-            if (empty($data)) return false;
+        public function update_owner(int $id, array $updates){
+            if (empty($updates)) return false;
             $sets = [];
             $params = [];
-            foreach ($data as $col => $val) {
+            foreach ($updates as $col => $val) {
                 $sets[] = "`$col` = :$col";
                 $params[":$col"] = $val;
             }
             $params[':id'] = $id;
-            $sql = "UPDATE `{$this->tbl_name}` SET " . implode(', ', $sets) . " WHERE id = :id";
+            $sql = "UPDATE `{$this->tbl_name}` SET " . implode(', ', $sets) . " WHERE `id` = :id";
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute($params);
         }

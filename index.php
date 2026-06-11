@@ -47,7 +47,14 @@ if(isset($_SESSION["user_id"])){
     </div>
     <div class="header-links">
         <?php if($user):?>
-            <a href="owner_dashboard.php" class="user_greet"><span class="user-icon" aria-hidden="true">👤</span><span>Hello, <?= htmlspecialchars($user->fname) ?>!</span></a>
+            <a href="owner_dashboard.php" class="user_greet">
+                <?php if(!empty($user->picture)): ?>
+                    <img src="assets/img/uploads/<?= htmlspecialchars($user->picture) ?>" alt="Profile" class="user-avatar" style="width:30px;height:30px;border-radius:50%;object-fit:cover;">
+                <?php else: ?>
+                    <span class="user-icon" aria-hidden="true">👤</span>
+                <?php endif; ?>
+                <span>Hello, <?= htmlspecialchars($user->fname) ?>!</span>
+            </a>
             <div class="action-group">
                 <a href="house_info.php" class="signin-btn">REGISTER MY HOUSE</a>
                 <a href="logout.php" class="signin-btn">LOG OUT</a>

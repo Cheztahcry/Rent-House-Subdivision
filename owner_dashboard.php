@@ -1,6 +1,30 @@
 <?php
 session_start();
 $user = false;
+// Handle profile picture upload
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['owner_picture'])) {
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: login.php');
+        exit;
+    }
+    include_once 'owner_info_class.php';
+    $owner = new OwnerInfo();
+    $userId = $_SESSION['user_id'];
+    $file = $_FILES['owner_picture'];
+    $allowed = ['image/jpeg','image/png','image/gif'];
+    if ($file['error'] === UPLOAD_ERR_OK && in_array($file['type'], $allowed)) {
+        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $newName = $userId . '_' . time() . '.' . $ext;
+        $destDir = __DIR__ . '/assets/img/uploads/';
+        if (!is_dir($destDir)) mkdir($destDir, 0755, true);
+        if (move_uploaded_file($file['tmp_name'], $destDir . $newName)) {
+            $owner->update_owner($userId, ['picture' => $newName]);
+        }
+    }
+    header('Location: owner_dashboard.php');
+    exit;
+}
+
 if(isset($_SESSION["user_id"])){
     include_once  'owner_info_class.php';
     $owner = new OwnerInfo();
@@ -33,6 +57,23 @@ if(isset($_SESSION["user_id"])){
             </div>
 
             <h1>Account Dashboard</h1>
+
+                <?php if($user): ?>
+                <div class="profile-upload" style="display:flex;align-items:center;gap:16px;margin-bottom:18px;">
+                    <div class="profile-preview">
+                        <?php if(!empty($user->picture)): ?>
+                            <img src="assets/img/uploads/<?= htmlspecialchars($user->picture) ?>" alt="Profile" class="profile-avatar" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:0 6px 18px rgba(0,0,0,0.12);">
+                        <?php else: ?>
+                            <div class="profile-placeholder" style="width:64px;height:64px;border-radius:50%;background:#f1f1f1;display:flex;align-items:center;justify-content:center;color:#6b6b6b;font-weight:700;">?</div>
+                        <?php endif; ?>
+                    </div>
+                    <form method="post" enctype="multipart/form-data">
+                        <label for="owner_picture">Change profile photo</label>
+                        <input type="file" name="owner_picture" id="owner_picture" accept="image/*">
+                        <button type="submit">Upload</button>
+                    </form>
+                </div>
+                <?php endif; ?>
 
                 <div class="acct-tab" id="acct-tab">
                     <div class="acct-tabs">
