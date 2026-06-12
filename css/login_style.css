@@ -5,7 +5,7 @@
 body {
     margin: 0;
     font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #ECE2C6;
+    background-image: url("../assets/img/bg_pic.jpg");
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
