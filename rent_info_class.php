@@ -10,9 +10,16 @@
             
             $this->create_table($this->tbl_name, $info_list);
         }
-        public function insert_rent_info(array $info_list){
+        private function insert_rent_info(){
+            $insert_info = [ 
+                "lotnumber" => $lot_number,
+                "blocknumber" => $block_number,
+                "rentprice" => $rent_price,
+                "downpayment" => $down_payment,
+                "house_status" => $house_status
+                  ];
             
-            $this->insert_table($this->tbl_name, $info_list);
+            $this->insert_table($this->tbl_name, $insert_info);
         }
         public function show_rentinfo(){
             try {
@@ -22,6 +29,34 @@
             } 
             
         }
+        public function duplicate_entries_real_time($lot, $block){
+            $sql = "SELECT * FROM `{$this->tbl_name}` WHERE  lotnumber = :lot AND blocknumber = :blocknumber" ;
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                'lot' => $lot,
+                'blocknumber' => $block]);
+            $results = $stmt->fetchColumn();
+            if ($results > 0){
+                echo "House is already registered";
+            }
+       }
+       public function duplicate_entries_submit($lot, $block){
+            $sql = "SELECT * FROM `{$this->tbl_name}` WHERE  lotnumber = :lot AND blocknumber = :blocknumber" ;
+            $stmt = $this->pdo->prepare($sql);
+             $stmt->execute([
+                'lot' => $lot,
+                'blocknumber' => $block]);
+            $results = $stmt->fetchColumn();
+            if ($results > 0){
+                echo "House is already registered";
+            }
+            else{
+                $this->insert_rent_info();
+                echo("Submit Successful");
+                header("Location: index.php");
+                exit;
+            }
+       }
 
     }
     $lot_number = trim(($_POST['lotnumber'] ?? null));
@@ -65,10 +100,8 @@
     if (empty($errors)) {
         $rent = new RentInfo();
         $rent->rent_table($create_info);
-        $rent->insert_rent_info($insert_info);
-        echo("Submit Successful");
-        header("Location: index.php");
-        exit;
+        $rent->duplicate_entries_submit($lot_number, $block_number);
+        
     }
 
     

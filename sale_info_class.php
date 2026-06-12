@@ -10,26 +10,61 @@
             
             $this->create_table($this->tbl_name, $info_list);
         }
-        public function insert_sale_info(array $info_list){
+        public function insert_sale_info(){
+            $insert_info = [ 
+                "lotnumber" => $lot_number,
+                "blocknumber" => $block_number,
+                "houseprice" => $house_price,
+                "house_status" => $house_status
+                  ];
             
-            $this->insert_table($this->tbl_name, $info_list);
+            $this->insert_table($this->tbl_name, $insert_info);
         }
         public function show_saleinfo(){
             return $this->show_table($this->tbl_name);
         }
+        public function duplicate_entries_real_time($lot, $block){
+            $sql = "SELECT * FROM `{$this->tbl_name}` WHERE  lotnumber = :lot AND blocknumber = :blocknumber" ;
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                'lot' => $lot,
+                'blocknumber' => $block]);
+            $results = $stmt->fetchColumn();
+            if ($results > 0){
+                echo "House is already registered";
+            }
+       }
+       public function duplicate_entries_submit($lot, $block){
+            $sql = "SELECT * FROM `{$this->tbl_name}` WHERE  lotnumber = :lot AND blocknumber = :blocknumber" ;
+            $stmt = $this->pdo->prepare($sql);
+             $stmt->execute([
+                'lot' => $lot,
+                'blocknumber' => $block]);
+            $results = $stmt->fetchColumn();
+            if ($results > 0){
+                echo "House is already registered";
+            }
+            else{
+                $this->insert_sale_info();
+                echo("Submit Successful");
+                header("Location: index.php");
+                exit;
+            }
+       }
 
     }
     $lot_number = trim(($_POST['lotnumber'] ?? null));
     $block_number = trim(($_POST['blocknumber'] ?? null));
     $house_price = trim(($_POST['houseprice'] ?? null));
     $house_status = trim(($_POST['house_status'] ?? null));
-
     $insert_info = [ 
                 "lotnumber" => $lot_number,
                 "blocknumber" => $block_number,
                 "houseprice" => $house_price,
                 "house_status" => $house_status
                   ];
+
+    
     $create_info = [
        'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
        'lotnumber' => 'INT NOT NULL',
@@ -57,10 +92,7 @@
     if (empty($errors)) {
         $sale = new SaleInfo();
         $sale->sale_table($create_info);
-        $sale->insert_sale_info($insert_info);
-        echo "Submit Successful";
-        header("Refresh: 1; url=index.php");
-        exit;
+        $sale->duplicate_entries_submit($lot_number, $block_number);
     }
 
     

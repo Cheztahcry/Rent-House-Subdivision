@@ -26,7 +26,9 @@
                     <div class="field-row">
                         <input type="number" name="blocknumber" id="blocknumber" placeholder="Block Number" min="1">
                         <input type="number" name="lotnumber" id="lot_number" placeholder="Lot Number" min="1">
+
                     </div>
+                    <div id = "message"></div>
                 </div>
                 <div class="field-group">
                     <label for="rent_price">House Status</label>
@@ -68,6 +70,8 @@
     </div>
     
 
-    <script src="js/house_info.js" defer></script>
+    <script src="js/house_info.js"></script>
+    <script src="js/test.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </body>
 </html>
