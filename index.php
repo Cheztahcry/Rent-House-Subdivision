@@ -108,9 +108,7 @@ if(isset($_SESSION["user_id"])){
             </div>
         </div>
     </div>
-    <div id = "search-results">
-        
-    </div>
+    
 
         
     <div class = "sale-dashboard" id = "sale-dashboard">
@@ -199,6 +197,9 @@ if(isset($_SESSION["user_id"])){
                 </tbody>
                 </table>
             </div>
+    </div>
+    <div id = "search-results">
+        
     </div>
         
 </body>

@@ -5,7 +5,7 @@
 body {
     margin: 0;
     font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-image: url("../assets/img/bg_pic.jpg");
+    background-color: #ECE2C6;
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -21,6 +21,7 @@ body {
     width: 100%;
     max-width: 420px;
     padding: 24px;
+    
 }
 
 .login-card {

@@ -56,10 +56,14 @@
                 return $insert->execute($column);
                 } 
             catch (PDOException $e) {
-                die("Insert Error: " . $e->getMessage());
                 if ($e->errorInfo[1] == 1062) {
-                echo "Duplicate entry detected!";
+                    echo "Duplicate entry detected!";
                 }
+                else{
+                    die("Insert Error: " . $e->getMessage());
+                }
+                
+                
 
         }
     }

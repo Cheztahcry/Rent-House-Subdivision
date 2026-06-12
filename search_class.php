@@ -8,10 +8,14 @@ class SearchResults extends Database{
     parent::__construct();
     }
     public function search_query($input){
-        $query = "SELECT * FROM `tbl_rentinfo` WHERE id = '$input' OR blocknumber = '$input' OR lotnumber = '$input'";;
-        $show_query = $this->pdo->query($query);
-        $results = $show_query->fetchAll(PDO::FETCH_OBJ);
+        $query = "SELECT * FROM `tbl_rentinfo` WHERE id = :input OR blocknumber = :input OR lotnumber = :input";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([
+            'input' => $input
+            ]);
+        $results = $stmt->fetchAll(PDO::FETCH_OBJ);
         $row_num = count($results);
+        try{
         if ($row_num > 0){?>
         <table>
             <thead>
@@ -52,6 +56,20 @@ class SearchResults extends Database{
             echo "<h3>No results found</h3>";
             echo "<p>Try searching by another block number, lot number, or house ID.</p>";
             echo "</div>";
+    }
+    }catch(Exception $e){
+        if ($e->errorInfo[1] == 1064) {
+            echo "<div class='no-results-card'>";
+            echo "<div class='no-results-icon' aria-hidden='true'>🔎</div>";
+            echo "<h3>No results found</h3>";
+            echo "<p>Try searching by another block number, lot number, or house ID.</p>";
+            echo "</div>";
+        }
+        else{
+            die("Insert Error: " . $e->getMessage());
+        }
+        
+
     }
     }
 }
