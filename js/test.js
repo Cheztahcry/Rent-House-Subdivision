@@ -12,8 +12,9 @@ $(document).ready(function(){
                 data:{lotnumber:lot, blocknumber:block},
                 success:function(data){ 
                     $(message).html(data).show();
-                    
+                 
                 }
+        
                 
             })
         }else{

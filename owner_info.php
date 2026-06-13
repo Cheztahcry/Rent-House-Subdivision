@@ -56,6 +56,7 @@
                     <div class="field-row">
                         <input type="text" name="email" id="username" placeholder="Email">
                     </div>
+                    <div id = "message"></div>
                 </div>
                 <div class="field-group">
                     <label for="password">Create Password</label>
@@ -78,5 +79,7 @@
         </div>
     </div>
     <script src="js/owner_info.js"></script>
+    <script src="js/check_email.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </body>
 </html>

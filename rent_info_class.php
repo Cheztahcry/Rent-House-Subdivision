@@ -10,15 +10,7 @@
             
             $this->create_table($this->tbl_name, $info_list);
         }
-        private function insert_rent_info(){
-            $insert_info = [ 
-                "lotnumber" => $lot_number,
-                "blocknumber" => $block_number,
-                "rentprice" => $rent_price,
-                "downpayment" => $down_payment,
-                "house_status" => $house_status
-                  ];
-            
+        private function insert_rent_info(array $insert_info){
             $this->insert_table($this->tbl_name, $insert_info);
         }
         public function show_rentinfo(){
@@ -40,7 +32,7 @@
                 echo "House is already registered";
             }
        }
-       public function duplicate_entries_submit($lot, $block){
+       public function duplicate_entries_submit($lot, $block, array $insert_info){
             $sql = "SELECT * FROM `{$this->tbl_name}` WHERE  lotnumber = :lot AND blocknumber = :blocknumber" ;
             $stmt = $this->pdo->prepare($sql);
              $stmt->execute([
@@ -51,7 +43,7 @@
                 echo "House is already registered";
             }
             else{
-                $this->insert_rent_info();
+                $this->insert_rent_info($insert_info);
                 echo("Submit Successful");
                 header("Location: index.php");
                 exit;
@@ -87,6 +79,7 @@
     // Clean up the input safely
     $value = trim($_POST[$info] ?? '');
     
+    
     // FIX: Check if the string length is 0. This allows '0' or 0 to be valid.
     if ($value === '') {
         $errors[$info] = $errorMessage;
@@ -95,12 +88,13 @@
         // (Optional: You can just use $errorMessage here instead of hardcoding echoes)
         return($_POST[$info] ?? "$info is missing/empty<br>");
     }
+    
 }
 
     if (empty($errors)) {
         $rent = new RentInfo();
         $rent->rent_table($create_info);
-        $rent->duplicate_entries_submit($lot_number, $block_number);
+        $rent->duplicate_entries_submit($lot_number, $block_number, $insert_info);
         
     }
 
