@@ -1,6 +1,8 @@
 <?php
 session_start();
 $user = false;
+$acc_rent = false;
+$acc_sale = false;
 // Handle profile picture upload
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['owner_picture'])) {
     if (!isset($_SESSION['user_id'])) {
@@ -26,12 +28,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['owner_picture'])) {
 }
 
 if(isset($_SESSION["user_id"])){
-    include_once  'owner_info_class.php';
+    include_once __DIR__ . '/owner_info_class.php';
+    include_once __DIR__ .  '/rent_info_class.php';
+    include_once __DIR__ .  '/sale_info_class.php';
     $owner = new OwnerInfo();
+    $rent = new RentInfo();
+    $sale = new SaleInfo();
     $user = $owner->show_ownerinfo($_SESSION["user_id"]);
+    $acc_rent = $rent->account_transactions($_SESSION["user_id"]);
+    $acc_sale = $sale->account_transactions($_SESSION["user_id"]);
 }
     
-
 ?>
 
 
@@ -150,18 +157,41 @@ if(isset($_SESSION["user_id"])){
                     <div class="acct-panel hidden" id="acct-tran-content">
                         <div class="transaction-summary">
                             <h2>Account Transactions</h2>
-                            <p class="transaction-note">Select a record to view transaction details or update your account activity.</p>
                         </div>
                         <div class="transaction-card">
+                            <?php if($acc_rent && count($acc_rent) > 0):?>
+                            <?php foreach ($acc_rent as $rent): ?> 
                             <div class="transaction-card__header">
-                                <span>Recent Activity</span>
-                                <span class="transaction-status">No transactions yet</span>
+                                <span>For Rent</span>
                             </div>
+                            <div class="transaction-card__body">
+                                <p class="transaction-card__message">Block: <?= $rent->blocknumber ?></p>
+                                <p class="transaction-card__message">Lot: <?= $rent->lotnumber ?></p>
+                                <p class="transaction-card__message">Rent: <?= $rent->rentprice ?></p>
+                                <p class="transaction-card__message">Down Payment: <?= $rent->downpayment ?></p>
+                            </div>
+                            <?php endforeach; ?>
+                            <?php if($acc_sale && count($acc_sale) > 0):?>
+                            <?php foreach ($acc_sale as $sale): ?> 
+                            <div class="transaction-card__header">
+                                <span>For Sale</span>
+                            </div>
+                            <div class="transaction-card__body">
+                                <p class="transaction-card__message">Block: <?= $sale->blocknumber ?></p>
+                                <p class="transaction-card__message">Lot: <?= $sale->lotnumber ?></p>
+                                <p class="transaction-card__message">Price: <?= $sale->houseprice ?></p>
+                            </div>
+                            <?php endforeach; ?>
+                            
+                            <?php else: ?>
                             <div class="transaction-card__body">
                                 <p class="transaction-card__message">Your account is active, and all updates will appear here once available.</p>
                             </div>
                         </div>
                     </div>
+                    
+                    <?php endif; ?>
+                    <?php endif; ?>
                 
                 
 
