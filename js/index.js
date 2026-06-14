@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const radioButtons = document.querySelectorAll('input[name="property_status"]');
     const sale_dashboard = document.getElementById('sale-dashboard');
     const rent_dashboard = document.getElementById('rent-dashboard');
+    const search_results = document.getElementById('search-results');
 
     function updateActiveLabel() {
         radioButtons.forEach(radio => {
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sale_dashboard.style.display = 'none';
         }
         updateActiveLabel();
+        search_results.style.display = 'none';
     }
 
     // initialize

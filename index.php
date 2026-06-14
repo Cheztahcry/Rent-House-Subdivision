@@ -84,7 +84,7 @@ if(isset($_SESSION["user_id"])){
             <span class="search-icon" aria-hidden="true"></span>
             <input type="text" name="search_bar" id="search_bar" class="search-input" placeholder="Search by block, lot or ID...">
         </div>
-        <button type="button" class="option-btn search-btn">Search</button>
+        <button type="button" class="option-btn search-btn" id= "search-button">Search</button>
         <button type="button" class="option-btn filter-btn">Filter</button>
         <div class="filter-group hidden">
             <div class="filter-header">
