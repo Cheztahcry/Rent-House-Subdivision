@@ -85,15 +85,21 @@ if(isset($_SESSION["user_id"])){
                             <input type="radio" name="acct-stat" id="acct-tran-radio" value="Account Transaction">
                             <span>Account Transaction</span>
                         </label>
+                        <label class="status-option acct-tab-button">
+                            <input type="radio" name="acct-stat" id="acct-tran-radio" value="Account Transaction">
+                            <span>Bookmarks</span>
+                        </label>
                     </div>
+                </div>
 
-                    <div class="button-row">
-                        <button type="button" id="edit" class="secondary-btn">Edit Information</button>
-                        <button type="button" id="save" class="primary-btn">Save Information</button>
-                    </div>
+                    
 
                     <?php if($user):?>
                     <div class="acct-panel" id="acct-info-content">
+                        <div class="button-row">
+                            <button type="button" id="edit" class="secondary-btn">Edit Information</button>
+                            <button type="button" id="save" class="primary-btn">Save Information</button>
+                        </div>
                         <div class="field-group">
                             <label>Full Name</label>
                             <div class="field-row">
@@ -132,6 +138,12 @@ if(isset($_SESSION["user_id"])){
                                 <input type="password" name="password" id="password" placeholder="Password">
                             </div>
                         </div>
+                        <div class="field-group">
+                            <label for="password">User ID</label>
+                            <div class="field-row">
+                                <label><?= htmlspecialchars($user->user_uid) ?></label>
+                            </div>
+                        </div>
                     </div>
                     <?php endif; ?>
 
@@ -150,7 +162,7 @@ if(isset($_SESSION["user_id"])){
                             </div>
                         </div>
                     </div>
-                </div>
+                
                 
 
 

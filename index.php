@@ -1,9 +1,13 @@
 <?php
 session_start();
+if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token'])) {
+    $cookie_token = $_COOKIE['remember_token'];
+}
 $show_sale = false;
 $show_rent = true;
 $rent_rows = null;
 $sale_rows = null;
+
 if ($show_sale == true){
     include_once __DIR__ . '/sale_info_class.php';
     if (class_exists('SaleInfo')){

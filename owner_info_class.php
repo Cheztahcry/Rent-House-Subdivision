@@ -10,6 +10,10 @@
             
             $this->create_table($this->tbl_name, $create_info);
         }
+        public function user_token(array $create_info){
+            
+            $this->create_table("tbl_usertoken", $create_info);
+        }
         private function insert_owner_info(array $insert_info){
             $this->insert_table($this->tbl_name, $insert_info);
         }
@@ -60,6 +64,18 @@
                 exit;
             }
        }
+       public function generate_user_id() {
+            // Generate 16 bytes of random data
+            $data = random_bytes(16);
+
+            // Set version to 0100 (version 4)
+            $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+            // Set bits 6-7 to 10
+            $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+            // Format the string into the standard 8-4-4-4-12 UUID layout
+            return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+        }
 
     }
     
@@ -72,6 +88,8 @@
     $confirm_password = trim(($_POST['confirm_password'] ?? null));
     $required_pass = 8;
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    $owner = new OwnerInfo();
+    $user_id = $owner->generate_user_id();
     
     $expected_fields = [
     'fname'            => 'First name is required.',
@@ -82,15 +100,23 @@
     'password'         => 'Password is required.',
     'confirm_password' => 'Please confirm your password.'
     ];
-    $create_info = [
+    $user_info = [
        'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
+       'user_uid' => 'VARCHAR (255) NOT NULL',
        'lname' => 'VARCHAR(50) NOT NULL',
        'fname' => 'VARCHAR(50) NOT NULL',
        'age' => 'INT NOT NULL',
        'gender' => 'VARCHAR(20) NOT NULL',
        'email' => 'VARCHAR(50) NOT NULL UNIQUE',
         'password_hash' => 'VARCHAR(255) NOT NULL ',
-        'picture' => 'VARCHAR(255) NULL'
+        'picture' => 'VARCHAR(255) NULL',
+        ];
+    $token_info = [
+       'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
+       'user_id' => 'INT NOT NULL',
+       'token_hash' => 'VARCHAR(255) NOT NULL',
+       'expiry' => 'DATETIME NOT NULL',
+       'FOREIGN KEY'   => '(user_id) REFERENCES owners(id) ON DELETE CASCADE'
         ];
     $errors = [];
     foreach ($expected_fields as $field => $errorMessage) {
@@ -118,10 +144,12 @@
                 "age" => $age,
                 "gender" => $gender,
                 "email" => $email,
-                "password_hash" => $password_hash
+                "password_hash" => $password_hash,
+                "user_uid" => $user_id
+
                   ];  
         $owner = new OwnerInfo();
-        $owner->owner_table($create_info);
+        $owner->owner_table($user_info);
         $owner->duplicate_email_submit($email, $insert_info);
     }
 

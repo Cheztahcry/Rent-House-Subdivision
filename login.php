@@ -46,6 +46,7 @@ $_SESSION['LAST_ACTIVITY'] = time();
                 </div>
                 <div class="button-row">
                     <button type="submit" name="login" id="login">Login</button>
+                    <input type="checkbox" name="remember_me" id="remember-me">Remember Me
                 </div>
                 <div class="register-link">
                     <a href="owner_info.php">Register</a>
