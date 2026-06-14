@@ -67,7 +67,7 @@
                 <div class="field-group">
                     <label for="password">Confirm Password</label>
                     <div class="field-row">
-                        <input type="password" name="confirm_password" id="password" placeholder="Password">
+                        <input type="password" name="confirm_password" id="confirm-password" placeholder="Password">
                     </div>
                 </div>
                 

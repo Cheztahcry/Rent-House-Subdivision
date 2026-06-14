@@ -1,6 +1,7 @@
 const middle_name = document.getElementById("mname")
 const age = document.getElementById("age")
 const password = document.getElementById("password")
+const confirm_password = document.getElementById("confirm-password")
 
 document.getElementById("check_mname").addEventListener("change", function () {
     if (middle_name.disabled == true){
@@ -45,7 +46,6 @@ function validatePassword(password) {
     if (!/[0-9]/.test(password)) {
         errors.push("Password must contain at least one number");
     }
-    
     return errors;
 }
 
@@ -145,6 +145,14 @@ password.addEventListener("input", function() {
     
     if (password !== "" && errors.length > 0) {
         this.style.borderColor = "#ffcccc";
+    } else {
+        this.style.borderColor = "";
+    }
+});
+confirm_password.addEventListener("input", function() {
+    const c_password = this.value;
+    if (c_password !== password && c_password !== "") {
+        this.style.borderColor = "#f80000";
     } else {
         this.style.borderColor = "";
     }
