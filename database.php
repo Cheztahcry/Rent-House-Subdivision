@@ -27,30 +27,41 @@
 
             }
         }
-        public function create_table($table, array $column){
-            $tabledat = [];
-            foreach($column as $name => $data_type){
-                $tabledat[] = "`$name` $data_type";
+        public function create_table($table, array $column) {
+            $fields = [];
+            $constraints = [];
+
+            // 1. Separate standard columns from SQL constraints
+            foreach ($column as $key => $value) {
+                if (strtoupper($key) === 'FOREIGN KEY' || strtoupper($key) === 'PRIMARY KEY') {
+                    $constraints[] = "$key $value";
+                } else {
+                    $fields[] = "`$key` $value";
+                }
             }
-                $create_table = "CREATE TABLE IF NOT EXISTS `$table` (" . implode(', ', $tabledat) . ")";
-                $this->pdo->exec($create_table);
-                // Attempt to add any missing columns individually to avoid invalid SQL syntax
-                foreach ($tabledat as $colDef) {
-                    // Extract the column name from the definition like `name` TYPE
-                    if (preg_match('/`([^`]+)`/', $colDef, $m)) {
-                        $colName = $m[1];
-                        // Use ADD COLUMN IF NOT EXISTS per-column (MySQL 8+). If the server
-                        // doesn't support IF NOT EXISTS for ADD COLUMN, the exec will throw
-                        // and caller code should handle it accordingly.
-                        $alter = "ALTER TABLE `$table` ADD COLUMN IF NOT EXISTS " . $colDef;
-                        try {
-                            $this->pdo->exec($alter);
-                        } catch (\PDOException $e) {
-                            // Ignore alter errors to avoid breaking on older MySQL versions
-                            // (table already has columns or server doesn't support IF NOT EXISTS)
-                        }
+
+            // 2. Build a clean list of EVERYTHING that goes inside the table definition
+            $all_parts = array_merge($fields, $constraints);
+
+            // 3. Assemble the CREATE TABLE query safely in ONE single go
+            $create_table = "CREATE TABLE IF NOT EXISTS `$table` (" . implode(', ', $all_parts) . ") ENGINE=InnoDB;";
+            
+            // Execute the main creation query
+            $this->pdo->exec($create_table);
+
+            // 4. Run your migration safety net loop (Alters columns individually if table already exists)
+            foreach ($fields as $colDef) {
+                if (preg_match('/`([^`]+)`/', $colDef, $m)) {
+                    $alter = "ALTER TABLE `$table` ADD COLUMN IF NOT EXISTS " . $colDef;
+                    try {
+                        $this->pdo->exec($alter);
+                    } catch (\PDOException $e) {
+                        // Ignore errors for older MySQL versions that don't support IF NOT EXISTS on ALTER
                     }
                 }
+            }
+
+            return true;
         }
 
 

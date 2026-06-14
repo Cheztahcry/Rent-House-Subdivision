@@ -1,7 +1,10 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token'])) {
+    require_once __DIR__ . '/login_class.php';
     $cookie_token = $_COOKIE['remember_token'];
+    $account = new AccountInfo();
+    $account->fetch_token();
 }
 $show_sale = false;
 $show_rent = true;

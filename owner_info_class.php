@@ -10,9 +10,9 @@
             
             $this->create_table($this->tbl_name, $create_info);
         }
-        public function user_token(array $create_info){
+        public function user_token(array $create_token){
             
-            $this->create_table("tbl_usertoken", $create_info);
+            $this->create_table("tbl_usertoken", $create_token);
         }
         private function insert_owner_info(array $insert_info){
             $this->insert_table($this->tbl_name, $insert_info);
@@ -116,7 +116,7 @@
        'user_id' => 'INT NOT NULL',
        'token_hash' => 'VARCHAR(255) NOT NULL',
        'expiry' => 'DATETIME NOT NULL',
-       'FOREIGN KEY'   => '(user_id) REFERENCES owners(id) ON DELETE CASCADE'
+       'FOREIGN KEY'   => '(user_id) REFERENCES tbl_ownerinfo(id) ON DELETE CASCADE'
         ];
     $errors = [];
     foreach ($expected_fields as $field => $errorMessage) {
@@ -150,6 +150,7 @@
                   ];  
         $owner = new OwnerInfo();
         $owner->owner_table($user_info);
+        $owner->user_token($token_info);
         $owner->duplicate_email_submit($email, $insert_info);
     }
 

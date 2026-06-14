@@ -1,8 +1,14 @@
 <?php
 session_start();
-session_destroy();
+if (isset($_SESSION['user_id'])) {
+   require_once __DIR__ . '/login_class.php';
+   $account = new AccountInfo();
+   $account->delete_token();
+
+    
+}
 setcookie("remember_token", "", time() - 3600, "/");
-header("Refresh: 1 ; url=index.php");
+header("Location: login.php");
 exit;
 
 
