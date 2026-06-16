@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token'])) {
     $account = new AccountInfo();
     $account->fetch_token();
 }
-$show_sale = false;
+$show_sale = true;
 $show_rent = true;
 $rent_rows = null;
 $sale_rows = null;
