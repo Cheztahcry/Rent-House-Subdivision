@@ -33,7 +33,7 @@
 
             // 1. Separate standard columns from SQL constraints
             foreach ($column as $key => $value) {
-                if (strtoupper($key) === 'FOREIGN KEY' || strtoupper($key) === 'PRIMARY KEY') {
+                if (strtoupper($key) === 'FOREIGN KEY' || strtoupper($key) === 'PRIMARY KEY' || strtoupper($key) === 'UNIQUE KEY') {
                     $constraints[] = "$key $value";
                 } else {
                     $fields[] = "`$key` $value";
@@ -88,13 +88,31 @@
                 return $insert->execute($column);
                 } 
             catch (PDOException $e) {
-                die("Insert Error: " . $e->getMessage());
-                if ($e->errorInfo[1] == 1062) {
-                echo "Duplicate entry detected!";
-                }
+                throw $e;
 
         }
-    }
+        
+        }
+        public function duplicate_entries_real_time($lot, $block, $tbl){
+            $sql = "SELECT * FROM `{$tbl}` WHERE  lotnumber = :lot AND blocknumber = :blocknumber" ;
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                'lot' => $lot,
+                'blocknumber' => $block]);
+            $results = $stmt->fetchColumn();
+            if ($results > 0){
+                echo "House is already registered";
+            }
+       }
+       public function filterData(array $input, array $allowedKeys) {
+        // 1. Whitelist the keys
+        $whitelisted = array_intersect_key($input, array_flip($allowedKeys));
+        
+        // 2. NEW: Drop any keys where the user left the input blank
+        return array_filter($whitelisted, function($value) {
+            return $value !== ''; 
+        });
+        }
 }
     
 

@@ -1,15 +1,17 @@
 <?php
 
-require_once __DIR__ .'/rent_info_class.php';
-require_once __DIR__ .'/sale_info_class.php';
+require_once __DIR__ .'/database.php';
 
-if (isset($_POST['lotnumber']) && isset($_POST['blocknumber'])) {
-    $lot = $_POST['lotnumber'];
-    $block = $_POST['blocknumber'];
-    $rent_info = new RentInfo();
-    $rent_info->duplicate_entries_real_time($lot, $block);
-    $rent_info = new SaleInfo();
-    $rent_info->duplicate_entries_real_time($lot, $block);
-}
 
+    try{
+        if (isset($_POST['lotnumber']) && isset($_POST['blocknumber'])) {
+        $lot = $_POST['lotnumber'];
+        $block = $_POST['blocknumber'];
+        $db = new Database();
+        
+        $db->duplicate_entries_real_time($lot, $block, "tbl_centralinfo");
+        }
+    }catch (PDOException $e) {
+        throw new Exception("House is already registred!");
+    } 
 ?>

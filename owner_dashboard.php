@@ -34,9 +34,14 @@ if(isset($_SESSION["user_id"])){
     $owner = new OwnerInfo();
     $rent = new RentInfo();
     $sale = new SaleInfo();
-    $user = $owner->show_ownerinfo($_SESSION["user_id"]);
-    $acc_rent = $rent->account_transactions($_SESSION["user_id"]);
-    $acc_sale = $sale->account_transactions($_SESSION["user_id"]);
+    try{
+        $user = $owner->show_ownerinfo($_SESSION["user_id"]);
+        $acc_rent = $rent->account_transactions($_SESSION["user_id"]);
+        $acc_sale = $sale->account_transactions($_SESSION["user_id"]);
+    }catch (PDOException $e) {
+        echo "Can't find the user data";
+    } 
+    
 }
     
 ?>

@@ -6,24 +6,20 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token'])) {
     $account = new AccountInfo();
     $account->fetch_token();
 }
-$show_sale = true;
-$show_rent = true;
-$rent_rows = null;
-$sale_rows = null;
+$rent_records = null;
+$sale_records = null;
 
-if ($show_sale == true){
-    include_once __DIR__ . '/sale_info_class.php';
-    if (class_exists('SaleInfo')){
-    $sale = new SaleInfo();
-    $sale_rows = $sale->show_saleinfo();
-    }
+include_once __DIR__ . '/sale_info_class.php';
+if (class_exists('SaleInfo')){
+$sale = new SaleInfo();
+$sale_records = $sale->innerjoin_table();
 }
-if ($show_rent == true){
-    include_once __DIR__ . '/rent_info_class.php';
-    if (class_exists('RentInfo')){
-    $rent = new RentInfo();
-    $rent_rows = $rent->show_rentinfo();
-    }
+
+
+include_once __DIR__ . '/rent_info_class.php';
+if (class_exists('RentInfo')){
+$rent = new RentInfo();
+$rent_records = $rent->innerjoin_table();
 }
 
 
@@ -32,9 +28,6 @@ if(isset($_SESSION["user_id"])){
     include_once  'owner_info_class.php';
     $owner = new OwnerInfo();
     $user = $owner->show_ownerinfo($_SESSION["user_id"]);
-    
-
-
 }
 ?>
 <!DOCTYPE html>
@@ -133,8 +126,8 @@ if(isset($_SESSION["user_id"])){
             </tr>
             </thead>
             <tbody>
-                <?php if ($sale_rows && count($sale_rows) > 0): ?>
-                <?php foreach ($sale_rows as $row): ?>             
+                <?php if ($sale_records && count($sale_records) > 0): ?>
+                <?php foreach ($sale_records as $row): ?>             
                 <tr>
                     <td><?= $row->id ?></td>
                     <td><?= $row->blocknumber ?></td>
@@ -177,15 +170,15 @@ if(isset($_SESSION["user_id"])){
             </tr>
             </thead>
             <tbody>
-                <?php if ($rent_rows && count($rent_rows) > 0): ?>
-                <?php foreach ($rent_rows as $row): ?>
+                <?php if ($rent_records && count($rent_records) > 0): ?>
+                <?php foreach ($rent_records as $row): ?>
                 <tr>
                     <td><?= $row->id ?></td>
                     <td><?= $row->blocknumber ?></td>
                     <td><?= $row->lotnumber ?></td>
                     <td><?= $row->house_status ?></td>
-                    <td><?= $row->rentprice ?></td>
-                    <td><?= $row->downpayment ?></td>
+                    <td><?= number_format($row->rentprice) ?></td>
+                    <td><?= number_format($row->downpayment) ?></td>
                     <td class="action-cell">
                         <button type="button" class="action-btn inquire-btn">Inquire</button>
                         <button type="button" class="action-btn contact-btn">Contact Seller</button>
