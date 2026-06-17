@@ -56,6 +56,22 @@
             $sale_records = $stmt->fetchAll(PDO::FETCH_OBJ);
             return $sale_records;
        }
+       public function innerjoin_table_dashboard($user_id){
+            $sql = "SELECT 
+            c.id,
+            c.blocknumber,
+            c.lotnumber,
+            c.house_status,
+            s.houseprice
+            FROM tbl_centralinfo c
+            INNER JOIN tbl_saleinfo s ON s.registry_id = c.id
+            WHERE c.user_id = :user;";
+            $stmt = $this->pdo->prepare($sql); 
+            $stmt->execute([
+                'user' => $user_id]); 
+            $rent_records = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return $rent_records;
+       }
 
     }
     $lot_number = trim(($_POST['lotnumber'] ?? null));
@@ -79,7 +95,13 @@
        'FOREIGN KEY'   => '(user_id) REFERENCES tbl_ownerinfo(id) ON DELETE CASCADE',
        'UNIQUE KEY' => 'unique_property (blocknumber, lotnumber)'
     ];
-
+    $bookmark_info = [
+       'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
+       'registry_id' => 'INT NOT NULL',
+       'user_id' => 'INT NOT NULL',
+       'FOREIGN KEY'   => '(user_id) REFERENCES tbl_ownerinfo(id) ON DELETE CASCADE',
+       'FOREIGN KEY'   => '(registry_id) REFERENCES tbl_centralinfo(id) ON DELETE CASCADE',
+    ];
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -120,6 +142,7 @@
             $sale = new SaleInfo();
             $sale->create_table_sale("tbl_centralinfo", $central_info);
             $sale->create_table_sale("tbl_saleinfo", $sale_info);
+            $sale->create_table_sale("tbl_bookmark", $bookmark_info);
             $sale->insert_sale_data($insert_central_info, $insert_sale_info);
             
         }

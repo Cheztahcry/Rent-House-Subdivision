@@ -40,6 +40,7 @@ th {
     flex-wrap: wrap;
     gap: 8px;
 }
+
 .action-btn {
     display: inline-flex;
     align-items: center;
@@ -56,30 +57,53 @@ th {
     cursor: pointer;
     transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
 }
+
 .action-btn:hover {
     transform: translateY(-1px);
     box-shadow: 0 18px 32px rgba(15, 25, 65, 0.08);
 }
+
 .inquire-btn {
     background: #f9f7ed;
     border-color: rgba(143, 168, 130, 0.18);
 }
+
 .contact-btn {
     background: #e0e7dc;
     border-color: rgba(15, 25, 65, 0.12);
 }
+
+/* --- YOUR BOOKMARK DESIGN --- */
 .bookmark-btn {
     background: #ffffff;
     color: #8b3d45;
     border-color: rgba(139, 61, 69, 0.18);
+    user-select: none; /* Prevents text highlighting on rapid clicks */
 }
+
 .bookmark-btn:hover {
     background: #fdf0f2;
 }
+
+/* Default state: Heart is gray */
 .bookmark-btn .btn-icon {
     font-size: 1rem;
     line-height: 1;
+    color: #9ca3af; 
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* --- THE MISSING ENGINE --- */
+
+/* 1. Hide the ugly square checkbox */
+.bookmark-checkbox {
+    display: none !important;
+}
+
+/* 2. When clicked/checked, turn the heart to your red color */
+.bookmark-checkbox:checked + .btn-icon {
     color: #d84457;
+    transform: scale(1.2); /* Adds a nice little pop effect */
 }
 
 header {

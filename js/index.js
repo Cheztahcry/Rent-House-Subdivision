@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const label = radio.closest('.status-option');
         if (label) label.addEventListener('click', () => setTimeout(changeInfo, 10));
     });
-
     // Filter UI and functionality
     const filterBtn = document.querySelector('.filter-btn');
     const filterGroup = document.querySelector('.filter-group');
@@ -103,3 +102,49 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sortBy) sortBy.addEventListener('change', applySorting);
     if (sortOrder) sortOrder.addEventListener('change', applySorting);
 });
+
+// THE UNIVERSAL LISTENER: We listen to the entire document.
+    // This catches checkboxes in Rent, Sale, Search, and everywhere else!
+    document.addEventListener('change', function(event) {
+        
+        // Did the user just trigger a bookmark checkbox?
+        if (event.target.classList.contains('bookmark-checkbox')) {
+            
+            const checkbox = event.target;
+            const buttonText = checkbox.closest('.bookmark-btn').querySelector('.btn-text');
+            const propertyId = checkbox.getAttribute('data-id');
+
+            const dataToSend = {
+                registry_id: propertyId 
+            };
+
+            fetch('bookmark_handler.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataToSend)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP error " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // We add checkbox.checked = true/false to force the UI to match reality!
+                if (data.status === 'added') {
+                    buttonText.textContent = "Saved"; 
+                    checkbox.checked = true;  // <--- Forces the heart to stay checked
+                } else if (data.status === 'removed') {
+                    buttonText.textContent = "Bookmark"; 
+                    checkbox.checked = false; // <--- Forces the heart to uncheck
+                } else if (data.error) {
+                    console.error("Server Error:", data.error);
+                    checkbox.checked = !checkbox.checked;
+                }
+            })
+            .catch(error => {
+                console.error("AJAX Error:", error);
+                checkbox.checked = !checkbox.checked; 
+            });
+        }
+    });

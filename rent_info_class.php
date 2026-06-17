@@ -64,6 +64,23 @@
             $rent_records = $stmt->fetchAll(PDO::FETCH_OBJ);
             return $rent_records;
        }
+       public function innerjoin_table_dashboard($user_id){
+            $sql = "SELECT 
+            c.id,
+            c.blocknumber,
+            c.lotnumber,
+            c.house_status,
+            r.rentprice,  
+            r.downpayment
+            FROM tbl_centralinfo c
+            INNER JOIN tbl_rent_info r ON r.registry_id = c.id
+            WHERE c.user_id = :user;";
+            $stmt = $this->pdo->prepare($sql); 
+            $stmt->execute([
+                'user' => $user_id]); 
+            $rent_records = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return $rent_records;
+       }
        
     
 
@@ -93,6 +110,13 @@
        'user_id' => 'INT NOT NULL',
        'FOREIGN KEY'   => '(user_id) REFERENCES tbl_ownerinfo(id) ON DELETE CASCADE',
        'UNIQUE KEY' => 'unique_property (blocknumber, lotnumber)'
+    ];
+    $bookmark_info = [
+       'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
+       'registry_id' => 'INT NOT NULL',
+       'user_id' => 'INT NOT NULL',
+       'FOREIGN KEY'   => '(user_id) REFERENCES tbl_ownerinfo(id) ON DELETE CASCADE',
+       'FOREIGN KEY'   => '(registry_id) REFERENCES tbl_centralinfo(id) ON DELETE CASCADE',
     ];
     
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -136,6 +160,7 @@
             $rent = new RentInfo();
             $rent->create_table_rent("tbl_centralinfo", $central_info);
             $rent->create_table_rent("tbl_rent_info", $rent_info);
+            $rent->create_table_rent("tbl_bookmark", $bookmark_info);
             $rent->insert_rent_data($insert_central_info, $insert_rent_info);
             
         }

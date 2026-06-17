@@ -8,6 +8,7 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token'])) {
 }
 $rent_records = null;
 $sale_records = null;
+$saved_ids = [];
 
 include_once __DIR__ . '/sale_info_class.php';
 if (class_exists('SaleInfo')){
@@ -28,6 +29,13 @@ if(isset($_SESSION["user_id"])){
     include_once  'owner_info_class.php';
     $owner = new OwnerInfo();
     $user = $owner->show_ownerinfo($_SESSION["user_id"]);
+}
+if (isset($_SESSION["user_id"])) {
+    include_once 'bookmark.php';
+    $book = new Bookmark();
+    
+    // Catch the returned data and store it in the $saved_ids variable!
+    $saved_ids = $book->save_bookmark($_SESSION["user_id"]);
 }
 ?>
 <!DOCTYPE html>
@@ -127,23 +135,31 @@ if(isset($_SESSION["user_id"])){
             </thead>
             <tbody>
                 <?php if ($sale_records && count($sale_records) > 0): ?>
-                <?php foreach ($sale_records as $row): ?>             
+                <?php foreach ($sale_records as $row): ?> 
+                <?php $is_saved = in_array($row->id, $saved_ids); ?>            
                 <tr>
-                    <td><?= $row->id ?></td>
-                    <td><?= $row->blocknumber ?></td>
-                    <td><?= $row->lotnumber ?></td>
-                    <td><?= $row->house_status ?></td>
-                    <td><?= $row->houseprice ?></td>
+                    <td><?= htmlspecialchars($row->id) ?></td>
+                    <td><?= htmlspecialchars($row->blocknumber) ?></td>
+                    <td><?= htmlspecialchars($row->lotnumber) ?></td>
+                    <td><?= htmlspecialchars($row->house_status) ?></td>
+                    <td><?= number_format($row->houseprice) ?></td>
                     <td class="action-cell">
                         <button type="button" class="action-btn inquire-btn">Inquire</button>
-                        <button type="button" class="action-btn contact-btn">Contact Seller</button>
-                        <button type="button" class="action-btn bookmark-btn"><span class="btn-icon" aria-hidden="true">♥</span> Bookmark</button>
+                        <button type="button" class="action-btn contact-btn">Contact</button>
+                        
+                        <label class="action-btn bookmark-btn">
+                            <input type="checkbox" class="bookmark-checkbox" name="bookmark" data-id="<?php echo $row->id; ?>" <?= $is_saved ? 'checked' : '' ?>>
+                            
+                            <span class="btn-icon" aria-hidden="true">♥</span>
+                            
+                            <span class="btn-text"><?= $is_saved ? 'Saved' : 'Bookmark' ?></span>
+                        </label>
                     </td>
                 </tr>
                 <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="5" style="text-align: center; padding: 20px; color: #666;">
+                        <td colspan="6" style="text-align: center; padding: 20px; color: #666;">
                             <strong>No properties are currently available.</strong><br>
                             Please try refreshing the page or check back later.
                         </td>
@@ -172,30 +188,37 @@ if(isset($_SESSION["user_id"])){
             <tbody>
                 <?php if ($rent_records && count($rent_records) > 0): ?>
                 <?php foreach ($rent_records as $row): ?>
-                <tr>
-                    <td><?= $row->id ?></td>
-                    <td><?= $row->blocknumber ?></td>
-                    <td><?= $row->lotnumber ?></td>
-                    <td><?= $row->house_status ?></td>
-                    <td><?= number_format($row->rentprice) ?></td>
-                    <td><?= number_format($row->downpayment) ?></td>
-                    <td class="action-cell">
-                        <button type="button" class="action-btn inquire-btn">Inquire</button>
-                        <button type="button" class="action-btn contact-btn">Contact Seller</button>
-                        <button type="button" class="action-btn bookmark-btn"><span class="btn-icon" aria-hidden="true">♥</span> Bookmark</button>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-                <?php else: ?>
+                    <?php $is_saved = in_array($row->id, $saved_ids); ?>   
                     <tr>
-                        <td colspan="5" style="text-align: center; padding: 20px; color: #666;">
-                            <strong>No properties are currently available.</strong><br>
-                            Please try refreshing the page or check back later.
+                        <td><?= htmlspecialchars($row->id) ?></td>
+                        <td><?= htmlspecialchars($row->blocknumber) ?></td>
+                        <td><?= htmlspecialchars($row->lotnumber) ?></td>
+                        <td><?= htmlspecialchars($row->house_status) ?></td>
+                        <td><?= number_format($row->rentprice) ?></td>
+                        <td><?= number_format($row->downpayment) ?></td>
+                        <td class="action-cell">
+                            <button type="button" class="action-btn inquire-btn">Inquire</button>
+                            <button type="button" class="action-btn contact-btn">Contact Seller</button>
+                            
+                            <label class="action-btn bookmark-btn">
+                                <input type="checkbox" class="bookmark-checkbox" name="bookmark" data-id="<?php echo $row->id; ?>" <?= $is_saved ? 'checked' : '' ?>>
+                                
+                                <span class="btn-icon" aria-hidden="true">♥</span>
+                                <span class="btn-text"><?= $is_saved ? 'Saved' : 'Bookmark' ?></span>
+                            </label>
                         </td>
                     </tr>
-                <?php endif; ?>
-                </tbody>
-                </table>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 20px; color: #666;">
+                        <strong>No properties are currently available.</strong><br>
+                        Please try refreshing the page or check back later.
+                    </td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+            </table>
             </div>
     </div>
     <div id = "search-results">

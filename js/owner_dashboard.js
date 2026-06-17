@@ -1,6 +1,7 @@
 const radioButtons = document.querySelectorAll('input[name="acct-stat"]');
 const acct_info = document.getElementById("acct-info-content");
 const acct_tran = document.getElementById("acct-tran-content");
+const acct_book = document.getElementById("acct-book-content");
 const input_fields = acct_info ? acct_info.querySelectorAll('input') : [];
 const password = document.getElementById("password");
 const edit_button = document.getElementById("edit");
@@ -30,18 +31,29 @@ function changeInfo() {
     if (checkedRadio && checkedRadio.value === "Account Information") {
         acct_info.style.display = "block";
         acct_tran.style.display = "none";
+        acct_book.style.display = "none";
         save_button.style.display = button_stat ? 'inline-flex' : 'none';
         setReadOnlyMode(!button_stat);
     } else if (checkedRadio && checkedRadio.value === "Account Transaction") {
         acct_info.style.display = "none";
+        acct_book.style.display = "none";
         acct_tran.style.display = "block";
         save_button.style.display = 'none';
         setReadOnlyMode(true);
         button_stat = false;
         if (edit_button) edit_button.style.backgroundColor = '#f4f5ff';
-    } else {
+    }else if (checkedRadio && checkedRadio.value === "Bookmark") {
         acct_info.style.display = "none";
         acct_tran.style.display = "none";
+        acct_book.style.display = "block";
+        save_button.style.display = 'none';
+        setReadOnlyMode(true);
+        button_stat = false;
+        if (edit_button) edit_button.style.backgroundColor = '#f4f5ff';
+    }else {
+        acct_info.style.display = "none";
+        acct_tran.style.display = "none";
+        acct_book.style.display = "none";
     }
 }
 
@@ -94,7 +106,9 @@ if (save_button) {
     });
 }
 
-changeInfo();
+document.addEventListener('DOMContentLoaded', () => {
+    changeInfo(); 
+});
 radioButtons.forEach(radio => {
     radio.addEventListener('change', changeInfo);
 });
