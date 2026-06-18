@@ -10,7 +10,7 @@ class Bookmark extends Database {
 
     public function toggle_bookmark($userId, $registryId) {
         // 1. Check if the user already bookmarked this property
-        $checkStmt = $this->pdo->prepare("SELECT id FROM tbl_bookmark WHERE user_id = :user AND registry_id = reg");
+        $checkStmt = $this->pdo->prepare("SELECT id FROM tbl_bookmark WHERE user_id = :user AND registry_id = :reg");
         $checkStmt->execute(['user' => $userId, 'reg' => $registryId]);
         
         if ($checkStmt->fetch()) {

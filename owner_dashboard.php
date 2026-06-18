@@ -194,37 +194,48 @@ if(isset($_SESSION["user_id"])){
                             <h2>Account Transactions</h2>
                         </div>
                         <div class="transaction-card">
-                            <?php if($acc_rent && count($acc_rent) > 0):?>
-                            <?php foreach ($acc_rent as $rent): ?> 
                             <div class="transaction-card__header">
-                                <span>For Rent</span>
+                                <span>House ID</span>
+                                <span>Block Number</span>
+                                <span>Lot Number</span>
+                                <span>Status</span>
+                                <span>Rent</span>
+                                <span>Down Payment</span>
+                                <span>Actions</span>
                             </div>
-                            <div class="transaction-card__body">
-                                <p class="transaction-card__message">Block: <?= $rent->blocknumber ?></p>
-                                <p class="transaction-card__message">Lot: <?= $rent->lotnumber ?></p>
-                                <p class="transaction-card__message">Rent: <?= $rent->rentprice ?></p>
-                                <p class="transaction-card__message">Down Payment: <?= $rent->downpayment ?></p>
-                            </div>
-                            <?php endforeach; ?>
-                            <?php if($acc_sale && count($acc_sale) > 0):?>
-                            <?php foreach ($acc_sale as $sale): ?> 
-                            <div class="transaction-card__header">
-                                <span>For Sale</span>
-                            </div>
-                            <div class="transaction-card__body">
-                                <p class="transaction-card__message">Block: <?= $sale->blocknumber ?></p>
-                                <p class="transaction-card__message">Lot: <?= $sale->lotnumber ?></p>
-                                <p class="transaction-card__message">Price: <?= $sale->houseprice ?></p>
-                            </div>
-                            <?php endforeach; ?>
-                            
+                            <?php if ((($acc_rent && count($acc_rent) > 0) || ($acc_sale && count($acc_sale) > 0))): ?>
+                                <?php if ($acc_rent && count($acc_rent) > 0): ?>
+                                    <?php foreach ($acc_rent as $rent): ?>
+                                        <div class="transaction-card__row">
+                                            <span class="transaction-card__value"><?= htmlspecialchars($rent->id) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars($rent->blocknumber) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars($rent->lotnumber) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars($rent->house_status) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars(number_format($rent->rentprice, 2)) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars(number_format($rent->downpayment, 2)) ?></span>
+                                            <span class="transaction-card__actions">—</span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                                <?php if ($acc_sale && count($acc_sale) > 0): ?>
+                                    <?php foreach ($acc_sale as $sale): ?>
+                                        <div class="transaction-card__row">
+                                            <span class="transaction-card__value"><?= htmlspecialchars($sale->id) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars($sale->blocknumber) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars($sale->lotnumber) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars($sale->house_status) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars(number_format($sale->houseprice, 2)) ?></span>
+                                            <span class="transaction-card__value">—</span>
+                                            <span class="transaction-card__actions">—</span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             <?php else: ?>
-                            <div class="transaction-card__body">
-                                <p class="transaction-card__message">Your account is active, and all updates will appear here once available.</p>
-                            </div>
+                                <div class="transaction-card__body">
+                                    <p class="transaction-card__message">Your account is active, and all updates will appear here once available.</p>
+                                </div>
+                            <?php endif; ?>
                         </div>
-                        <?php endif; ?>
-                        <?php endif; ?>
                     </div>
                     
                     
