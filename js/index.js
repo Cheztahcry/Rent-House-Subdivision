@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Did the user just trigger a bookmark checkbox?
         if (event.target.classList.contains('bookmark-checkbox')) {
-            
+            console.log("The javascript is awake!", event.target.getAttribute('data-id'));
             const checkbox = event.target;
             const buttonText = checkbox.closest('.bookmark-btn').querySelector('.btn-text');
             const propertyId = checkbox.getAttribute('data-id');
