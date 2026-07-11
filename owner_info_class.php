@@ -1,4 +1,5 @@
 <?php
+    header('Content-Type: application/json');
     require_once 'Database.php';
     class OwnerInfo extends Database {
         private string $tbl_name = "tbl_ownerinfo";
@@ -38,30 +39,17 @@
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute($params);
         }
-        public function duplicate_email_real_time($email){
+        public function duplicate_email($email){
             $sql = "SELECT * FROM `{$this->tbl_name}` WHERE  email = :email" ;
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
                 'email' => $email]);
             $results = $stmt->fetchColumn();
             if ($results > 0){
-                echo "Email is already registered";
-            }
-       }
-       public function duplicate_email_submit($email, array $insert_info){
-            $sql = "SELECT * FROM `{$this->tbl_name}` WHERE  email = :email" ;
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([
-                'email' => $email]);
-            $results = $stmt->fetchColumn();
-            if ($results > 0){
-                echo "Email is already registered";
+                return true;
             }
             else{
-                $this->insert_owner_info($insert_info);
-                echo("Submit Successful");
-                header("Location: index.php");
-                exit;
+                return false;
             }
        }
        public function generate_user_id() {
@@ -151,8 +139,10 @@
         $owner = new OwnerInfo();
         $owner->owner_table($user_info);
         $owner->user_token($token_info);
-        $owner->duplicate_email_submit($email, $insert_info);
+        
     }
+    $duplicate = $owner->duplicate_email($email);
+    echo json_encode((bool)$duplicate);
 
     
 

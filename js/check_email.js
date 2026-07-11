@@ -1,22 +1,41 @@
-$(document).ready(function(){
-    const email = document.getElementById("username");
+document.addEventListener("DOMContentLoaded", () => {
     const message = document.getElementById("message");
-    $(email).keyup(function(){
-        var user_email = $(email).val();
-        if (user_email != ""){
-            $.ajax({
-                url:"check_email.php",
-                method:"POST",
-                data:{email:user_email},
-                success:function(data){ 
-                    $(message).html(data).show();
+    const input = document.querySelector('input[name="email"]');
+    const submit_button = document.querySelector('button[name="submit_owner"]')
+    const form = document.querySelector('form');
+    input.addEventListener('keyup', (event) => {
+        if (input.value.trim() === "") {
+            message.textContent = "";
+            return;
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'owner_info_class.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        
+        xhr.onload = function(){
+        if (xhr.status == 200){
+            var trim_response = xhr.responseText.trim();
+            
+            try {
+                var isDuplicate = JSON.parse(trim_response);
+                
+                if(isDuplicate){
+                    message.textContent = "Email is already taken";
+                    message.style.color = "red";
+                    submit_button.disabled = true;
+                    submit_button.style.BackgroundColor = "red"
                     
                 }
-                
-            })
-        }else{
-            $(message).css("display", "none");
-
+                else{
+                    submit_button.disabled = false;
+                }
+            } catch (e) {
+                console.error("JSON Parse failed! The server actually sent: ", xhr.responseText);
+            }
         }
-    })
-})
+};
+        var params = 'email=' + encodeURIComponent(input.value);
+        xhr.send(params);
+    });
+});

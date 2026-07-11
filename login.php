@@ -45,7 +45,7 @@ $_SESSION['LAST_ACTIVITY'] = time();
                     </div>
                 </div>
                 <div class="button-row">
-                    <button type="submit" name="login" id="login">Login</button>
+                    <button type="button" name="login" id="login">Login</button>
                     <input type="checkbox" name="remember_me" id="remember-me">Remember Me
                 </div>
                 <div class="register-link">
@@ -54,8 +54,14 @@ $_SESSION['LAST_ACTIVITY'] = time();
                 <div class="forgot-password">
                     <a href="forgot_password.php">Forgot password?</a>
                 </div>
+                <div class = "validate_box" id ="validate_box">
+                    <div>Password is Wrong</div>
+                    <div><button type="button" id = "ok-btn">Ok</button></div>
+                </div>
             </form>
         </div>
     </div>
+    <script src="js/login.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </body>
 </html>

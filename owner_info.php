@@ -20,8 +20,8 @@
                 <div class="field-group">
                     <label>Full Name</label>
                     <div class="field-row">
-                        <input type="text" name="lname" placeholder="Last Name" required>
-                        <input type="text" name="fname" placeholder="First Name" required>
+                        <input type="text" name="lname" placeholder="Last Name">
+                        <input type="text" name="fname" placeholder="First Name">
                         <input type="text" name="mname" id="mname" placeholder="Middle Name">
                         <label class="checkbox-label">
                             <input type="checkbox" name="check_mname" id="check_mname" value="N/A"> I have no middle name
@@ -79,7 +79,6 @@
         </div>
     </div>
     <script src="js/owner_info.js"></script>
-    <script src="js/check_email.js" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/check_email.js"></script>
 </body>
 </html>

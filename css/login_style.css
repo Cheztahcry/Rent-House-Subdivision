@@ -141,6 +141,16 @@ body {
     background: #dde4ff;
 }
 
+.validate_box{
+    background-color:#5060f2;
+    border-radius: 10px;
+    display: block;
+    height: 100px;
+    width: 20rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 @media (max-width: 520px) {
     .login-card {
         padding: 24px;
