@@ -1,5 +1,4 @@
 <?php
-    header('Content-Type: application/json');
     require_once 'Database.php';
     class OwnerInfo extends Database {
         private string $tbl_name = "tbl_ownerinfo";
@@ -141,8 +140,8 @@
         $owner->user_token($token_info);
         
     }
-    $duplicate = $owner->duplicate_email($email);
-    echo json_encode((bool)$duplicate);
+
+
 
     
 

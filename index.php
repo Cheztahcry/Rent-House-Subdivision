@@ -38,7 +38,7 @@ if (isset($_SESSION["user_id"])) {
     $saved_ids = $book->save_bookmark($_SESSION["user_id"]);
 }
 ?>
-<!DOCTYPE html>
+<DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

@@ -45,7 +45,7 @@ $_SESSION['LAST_ACTIVITY'] = time();
                     </div>
                 </div>
                 <div class="button-row">
-                    <button type="button" name="login" id="login">Login</button>
+                    <button type="submit" name="login" id="login">Login</button>
                     <input type="checkbox" name="remember_me" id="remember-me">Remember Me
                 </div>
                 <div class="register-link">
@@ -53,10 +53,6 @@ $_SESSION['LAST_ACTIVITY'] = time();
                 </div>
                 <div class="forgot-password">
                     <a href="forgot_password.php">Forgot password?</a>
-                </div>
-                <div class = "validate_box" id ="validate_box">
-                    <div>Password is Wrong</div>
-                    <div><button type="button" id = "ok-btn">Ok</button></div>
                 </div>
             </form>
         </div>

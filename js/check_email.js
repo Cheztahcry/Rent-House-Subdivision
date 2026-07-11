@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const message = document.getElementById("message");
     const input = document.querySelector('input[name="email"]');
-    const submit_button = document.querySelector('button[name="submit_owner"]')
     const form = document.querySelector('form');
     input.addEventListener('keyup', (event) => {
         if (input.value.trim() === "") {
@@ -10,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'owner_info_class.php', true);
+        xhr.open('POST', 'check_email.php', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         
         xhr.onload = function(){
@@ -22,13 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 if(isDuplicate){
                     message.textContent = "Email is already taken";
-                    message.style.color = "red";
-                    submit_button.disabled = true;
-                    submit_button.style.BackgroundColor = "red"
+                    message.style.color = "red"
+                    submit_button.disabled = true
                     
-                }
-                else{
-                    submit_button.disabled = false;
                 }
             } catch (e) {
                 console.error("JSON Parse failed! The server actually sent: ", xhr.responseText);

@@ -1,6 +1,6 @@
 <?php
-
-require_once __DIR__ .'/database.php';
+    
+    require_once __DIR__ .'/database.php';
 
 
     try{
@@ -13,5 +13,6 @@ require_once __DIR__ .'/database.php';
         }
     }catch (PDOException $e) {
         throw new Exception("House is already registred!");
-    } 
+    }
+
 ?>
