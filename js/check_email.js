@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'check_email.php', true);
+        xhr.open('POST', 'check_duplicatesgit.php', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         
         xhr.onload = function(){
