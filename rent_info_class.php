@@ -161,6 +161,7 @@
             $rent->create_table_rent("tbl_centralinfo", $central_info);
             $rent->create_table_rent("tbl_rent_info", $rent_info);
             $rent->create_table_rent("tbl_bookmark", $bookmark_info);
+            
             $rent->insert_rent_data($insert_central_info, $insert_rent_info);
             
         }

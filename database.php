@@ -5,9 +5,11 @@
 
     class DataBase{
         protected $pdo;
+        private $query_config;
         
         public function __construct(
         ){
+            $this->query_config = require __DIR__ . '/query_config.php';
             $config = require 'config.php';
 
             $dsn = "mysql:host=" . $config['host'];
@@ -93,17 +95,6 @@
         }
         
         }
-        public function duplicate_entries_real_time($lot, $block, $tbl){
-            $sql = "SELECT * FROM `{$tbl}` WHERE  lotnumber = :lot AND blocknumber = :blocknumber" ;
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([
-                'lot' => $lot,
-                'blocknumber' => $block]);
-            $results = $stmt->fetchColumn();
-            if ($results > 0){
-                echo "House is already registered";
-            }
-       }
        public function filterData(array $input, array $allowedKeys) {
         // 1. Whitelist the keys
         $whitelisted = array_intersect_key($input, array_flip($allowedKeys));

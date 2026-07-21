@@ -72,6 +72,7 @@
             $rent_records = $stmt->fetchAll(PDO::FETCH_OBJ);
             return $rent_records;
        }
+       
 
     }
     $lot_number = trim(($_POST['lotnumber'] ?? null));
@@ -143,7 +144,17 @@
             $sale->create_table_sale("tbl_centralinfo", $central_info);
             $sale->create_table_sale("tbl_saleinfo", $sale_info);
             $sale->create_table_sale("tbl_bookmark", $bookmark_info);
-            $sale->insert_sale_data($insert_central_info, $insert_sale_info);
+            $duplicate = $sale->duplicate_house($lot, $block);
+            if (bool($duplicate_house) === false){
+                $sale->insert_sale_data($insert_central_info, $insert_sale_info);
+                header("Location: index.php");
+                exit;   
+            }
+            else {
+                header("Location: error_page.php");
+                exit;
+            }
+            
             
         }
 }

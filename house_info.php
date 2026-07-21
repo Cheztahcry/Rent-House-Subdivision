@@ -24,18 +24,16 @@
                 <div class="field-group">
                     <label>Address</label>
                     <div class="field-row">
-                        <input type="number" name="blocknumber" id="blocknumber" placeholder="Block Number" min="1">
+                        <input type="number" name="blocknumber" id="block_number" placeholder="Block Number" min="1">
                         <input type="number" name="lotnumber" id="lot_number" placeholder="Lot Number" min="1">
 
                     </div>
-                    <div id = "message"></div>
+                    <div name = "message"></div>
                 </div>
                 <div class="field-group">
                     <label for="rent_price">House Status</label>
-                    <div class="field-row">
-                        <input type="radio" value = "For Sale" name="house_status" id="for_sale" required>For Sale
-                        <input type="radio" value = "For Rent" name="house_status" id="for_rent" required>For Rent
-                    </div>
+                    <input type="radio" value = "For Sale" name="house_status" id="for_sale" required>For Sale
+                    <input type="radio" value = "For Rent" name="house_status" id="for_rent" required>For Rent
                 </div>
                 <div id = "sale-form">
                     <div class="field-group">
@@ -71,7 +69,6 @@
     
 
     <script src="js/house_info.js"></script>
-    <script src="js/test.js" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/duplicate_handler.js" defer></script>
 </body>
 </html>

@@ -14,7 +14,7 @@
             
             $this->create_table("tbl_usertoken", $create_token);
         }
-        private function insert_owner_info(array $insert_info){
+        public function insert_owner_info(array $insert_info){
             $this->insert_table($this->tbl_name, $insert_info);
         }
         public function show_ownerinfo($id) {
@@ -44,12 +44,7 @@
             $stmt->execute([
                 'email' => $email]);
             $results = $stmt->fetchColumn();
-            if ($results > 0){
-                return true;
-            }
-            else{
-                return false;
-            }
+            return (bool) $stmt->fetch();
        }
        public function generate_user_id() {
             // Generate 16 bytes of random data
@@ -138,6 +133,18 @@
         $owner = new OwnerInfo();
         $owner->owner_table($user_info);
         $owner->user_token($token_info);
+        try {
+            $owner->insert_owner_info($insert_info);
+            header("Location: index.php");
+            exit;
+        }catch(PDOException $e){
+            if ($e->getCode() === '23000') {
+               header('Location: error_page.php');
+               exit;
+            }
+            
+        }
+        
         
     }
 

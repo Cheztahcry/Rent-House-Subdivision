@@ -4,7 +4,8 @@
     'sale' => 'tbl_saleinfo',
     'owner' => 'tbl_ownerinfo',
     'central' => 'tbl_centralinfo',
-    'bookmark' => 'tbl_bookmark']
+    'bookmark' => 'tbl_bookmark',
+    'token' => 'tbl_usertoken']
 
 
 ];

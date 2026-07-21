@@ -56,7 +56,7 @@
                     <div class="field-row">
                         <input type="text" name="email" id="username" placeholder="Email">
                     </div>
-                    <div id = "message"></div>
+                    <div name = "message">sssssssssssss</div>
                 </div>
                 <div class="field-group">
                     <label for="password">Create Password</label>
@@ -67,7 +67,7 @@
                 <div class="field-group">
                     <label for="password">Confirm Password</label>
                     <div class="field-row">
-                        <input type="password" name="confirm_password" id="confirm-password" placeholder="Password">
+                        <input type="password" name="confirm_password" id="confirm-password" placeholder="Password" required>
                     </div>
                 </div>
                 
@@ -79,7 +79,7 @@
         </div>
     </div>
     <script src="js/owner_info.js"></script>
-    <script src="js/check_email.js"></script>
+    <script src="js/duplicate_handler.js" defer></script>
 
 </body>
 </html>
