@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    //Make every messages/warnings share the same name or id
+    //Make every messages/warnings/submit button share the same name or id for every file
     const message = document.querySelector('div[name="message"]');
+    const submit_button = document.querySelector('button[name="submit"]');
     const block_input = document.querySelector('input[name="blocknumber"]');
     const lot_input = document.querySelector('input[name="lotnumber"]');
     const email_input = document.querySelector('input[name="email"]');
@@ -14,17 +15,17 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.onload = function () { 
             if (xhr.status == 200) {
                 var trim_response = xhr.responseText.trim();
+                const jsonString = JSON.stringify(isDuplicate);
+                alert(jsonString);
                 
                 try {
                     var isDuplicate = JSON.parse(trim_response);
-                    const stringifiedData = JSON.stringify(isDuplicate);
-                    if (isDuplicate) {
+                    if (isDuplicate.email || isDuplicate.house) {                        
                         message.textContent = result;    
                         message.style.color = "red";
-                    } else {
-                        message.textContent = "";  
-                        
-                    }
+                        submit_button.style.backgroundColor = "#222523";
+                        submit_button.disabled = true;
+                    }  
                 } catch (e) {
                     console.error("JSON Parse failed! The server actually sent: ", xhr.responseText);
                 }
@@ -47,13 +48,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const email_val = email_input?.value.trim() || "";
             if (duplicates === block_input || duplicates === lot_input) {
                 
-                if (block_val === "" || lot_val === "") return;
+                if (block_val === "" || lot_val === ""){
+                    message.textContent = "";
+                    submit_button.style.backgroundColor = "#484e26";
+                    submit_button.disabled = false;
+                    return;
+                }
                 
-                ajaxHelper({block: block_val, lot: lot_val}, "House address is already taken");
+                ajaxHelper({blocknumber: block_val, lotnumber: lot_val}, "House address is already taken");
             }
             
             if (duplicates === email_input) {
-                if (email_val === "") return; 
+                if (email_val === ""){
+                    message.textContent = "";
+                    submit_button.style.backgroundColor = "#484e26";
+                    submit_button.disabled = false;
+                    return;
+                }
+                     
                 ajaxHelper({email: email_val}, "Email address is already taken");
             }
         });

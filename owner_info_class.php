@@ -3,8 +3,10 @@
     class OwnerInfo extends Database {
         private string $tbl_name = "tbl_ownerinfo";
         private array $info_list;
+        private $query_config;
         public function __construct() {
         parent::__construct();
+        $this->query_config = require __DIR__ . '/query_config.php';
     }
         public function owner_table(array $create_info){
             
@@ -39,11 +41,13 @@
             return $stmt->execute($params);
         }
         public function duplicate_email($email){
-            $sql = "SELECT * FROM `{$this->tbl_name}` WHERE  email = :email" ;
+            $sql = "SELECT 1 
+            FROM `{$this->query_config['tables']['owner']}` 
+            WHERE email = :email
+            LIMIT 1";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
                 'email' => $email]);
-            $results = $stmt->fetchColumn();
             return (bool) $stmt->fetch();
        }
        public function generate_user_id() {

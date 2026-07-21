@@ -7,7 +7,7 @@
         $this->query_config = require __DIR__ . '/query_config.php';
     }
        public function check_duplicates($block, $lot) {
-        $sql = "SELECT blocknumber, lotnumber 
+        $sql = "SELECT 1
                 FROM `{$this->query_config['tables']['central']}` 
                 WHERE blocknumber = :blocknumber AND lotnumber = :lotnumber
                 LIMIT 1";        

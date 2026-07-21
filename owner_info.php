@@ -56,7 +56,7 @@
                     <div class="field-row">
                         <input type="text" name="email" id="username" placeholder="Email">
                     </div>
-                    <div name = "message">sssssssssssss</div>
+                    <div name = "message"></div>
                 </div>
                 <div class="field-group">
                     <label for="password">Create Password</label>
@@ -72,7 +72,7 @@
                 </div>
                 
                 <div class="button-row">
-                    <button type="submit" name="submit_owner" id="submit">Next Section</button>
+                    <button type="submit" name="submit" id="submit">Next Section</button>
                     <button type="button" id="clear">Clear Fields</button>
                 </div>
             </form>
