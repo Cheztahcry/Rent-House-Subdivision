@@ -44,6 +44,7 @@ $_SESSION['LAST_ACTIVITY'] = time();
                         <input type="password" name="password" id="password" placeholder="Password">
                     </div>
                 </div>
+                <div name="message">fdssssss</div>
                 <div class="button-row">
                     <button type="submit" name="login" id="login">Login</button>
                     <input type="checkbox" name="remember_me" id="remember-me">Remember Me

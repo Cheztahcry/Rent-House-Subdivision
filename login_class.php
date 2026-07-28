@@ -30,72 +30,34 @@
             }
         }
         
-        public function check_credentials($email, $password, $cookie) {
+        public function check_credentials($email, $password) {
             if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $sql = "SELECT * FROM `{$this->tbl_name}` WHERE email = ?";
+            $sql = "SELECT * FROM `{$this->tbl_name}` WHERE email  = ? LIMIT 1";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$email]);
             $user = $stmt->fetch(PDO::FETCH_OBJ);
             if ($user) {
                 if (password_verify($password, $user->password_hash)) {
-                    
                     if (session_status() === PHP_SESSION_NONE) {
                         session_start();
                         session_regenerate_id();
                     }
-                    
-                    if (isset($_POST[$cookie])) {
-                            $token = bin2hex(random_bytes(32)); 
-                            $stored_hash = password_hash($token, PASSWORD_DEFAULT);
-                            $expiry = time() + (30 * 24 * 60 * 60);
-                            $expiry_date = date('Y-m-d H:i:s', $expiry);
-                            $insert_info = [ 
-                                "user_id" => $user->id,
-                                "token_hash" => $stored_hash,
-                                "expiry" => $expiry_date
-                            ];
-                            $this->insert_table($this->tbl_token, $insert_info);
-                            setcookie(
-                                "remember_token",   // Name of the cookie
-                                $token,             // The raw token value
-                                $expiry,            // Expiration timestamp
-                                "/",                // Available across your entire website
-                                "",                 // Domain (blank for localhost)
-                                false,              // Secure: change to true if using HTTPS
-                                true                // HttpOnly: Prevents JavaScript/Hackers from reading it!
-                            );
-                        }
                     $_SESSION["user_id"] = $user->id;
-                    header("Location: index.php");
-                    exit;
+                    return true;
 
                     
                 } else {
-                    die("Wrong email or password.");
+                    return false;
 
                 }
             } else {
-                die("Account doesn't exist"); 
+                return false; 
             }
         }   
     }
 
-}
-
-
-
-
-    $email = trim(($_POST['email'] ?? null));
-    $password = trim(($_POST['password'] ?? null));
-    $remember_me = ($_POST['remember_me'] ?? null);
-    $credentials_info = [ 
-                "email" => $email,
-                "password" => $password,
-                "remember_me" => $remember_me
-                  ];
-    $errors = [];
-    
-    // Check for empty fields; If their is empty field add it to the error list
+}   
+    // Check for empty fields; If there is empty field add it to the error list
     /*foreach ($credentials_info as $info => $errorMessage) {
     if (empty(trim($_POST[$info] ?? ''))) {
         $errors[$info] = $errorMessage;
@@ -103,12 +65,6 @@
         
     }
     }*/
-
-    if (empty($errors)) {
-        $account = new AccountInfo();
-        $account->check_credentials($email, $password, "remember_me");
-        
-    }
 
 
 

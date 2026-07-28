@@ -15,9 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.onload = function () { 
             if (xhr.status == 200) {
                 var trim_response = xhr.responseText.trim();
-                const jsonString = JSON.stringify(isDuplicate);
-                alert(jsonString);
-                
                 try {
                     var isDuplicate = JSON.parse(trim_response);
                     if (isDuplicate.email || isDuplicate.house) {                        
