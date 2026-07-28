@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const login_btn = document.querySelector("#login");
     const email_fld = document.querySelector("#email");
     const password_fld = document.querySelector("#password");
-    const remember_me = document.querySelector('div[name="remember_me"]');
+    const remember_me = document.querySelector('input[name="remember_me"]');
     const login_form = document.getElementById("login-form");
     const message = document.querySelector('div[name="message"]');
 
@@ -66,7 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const params = new URLSearchParams({
             email: email_fld.value,
-            password: password_fld.value
+            password: password_fld.value,
+            cookies: remember_me.checked
         }).toString();
         xhr.send(params);
 
